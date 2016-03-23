@@ -5,3 +5,5 @@
 URL(请保留该URL): https://github.com/Gooeen/mariadb_access
 
 由于代码使用C++11，请使用 VS2015或更高版本 或者 g++4.8或更高版本 进行编译。
+
+使用SQL语句时需要在字符串前加上u8，如: u8"select * from table;"。
