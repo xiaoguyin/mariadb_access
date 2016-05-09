@@ -19,6 +19,7 @@
 #include <vector>
 #include <list>
 #include <tuple>
+#include <memory>
 
 // 如果指针是空则抛出异常
 #define if_null_throw(pointer, message)\
@@ -402,6 +403,18 @@ namespace sql
 			std::vector<unsigned char> get_udata(unsigned long n) const;
 
 			//*********************************************************
+			// 函数名称 : get_udata_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::vector<unsigned char> 数据
+			// 异    常 : 如果 std::vector 创建失败时抛出异常
+			//*********************************************************
+			std::shared_ptr<std::vector<unsigned char>> get_udata_ptr(unsigned long n) const;
+
+			//*********************************************************
 			// 函数名称 : get_data
 			// 作    者 : Gooeen
 			// 完成日期 : 2015/09/13
@@ -412,6 +425,18 @@ namespace sql
 			// 异    常 : 如果 std::vector 创建失败时抛出异常
 			//*********************************************************
 			std::vector<char> get_data(unsigned long n) const;
+
+			//*********************************************************
+			// 函数名称 : get_data_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::vector<char> 数据
+			// 异    常 : 如果 std::vector 创建失败时抛出异常
+			//*********************************************************
+			std::shared_ptr<std::vector<char>> get_data_ptr(unsigned long n) const;
 
 			//*********************************************************
 			// 函数名称 : get_double
@@ -492,6 +517,20 @@ namespace sql
 			//            如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
 			std::string get_string(unsigned long n) const;
+
+			//*********************************************************
+			// 函数名称 : get_string_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::string 数据
+			// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
+			//            则抛出 std::length_error 异常;
+			//            如果分配资源失败则抛出 std::bad_alloc 异常
+			//*********************************************************
+			std::shared_ptr<std::string> get_string_ptr(unsigned long n) const;
 
 			//*********************************************************
 			// 函数名称 : get_uchar
@@ -575,6 +614,17 @@ namespace sql
 			// 返 回 值 : std::wstring 数据
 			//*********************************************************
 			std::wstring get_wstring(unsigned long n) const;
+
+			//*********************************************************
+			// 函数名称 : get_wstring_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/05/09
+			// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::shared_ptr<std::wstring> 数据
+			//*********************************************************
+			std::shared_ptr<std::wstring> get_wstring_ptr(unsigned long n) const;
 
 			//*********************************************************
 			// 函数名称 : get_raw
@@ -734,6 +784,24 @@ namespace sql
 			}
 
 			//*********************************************************
+			// 函数名称 : get_string_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::string 数据
+			// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
+			//            则抛出 std::length_error 异常;
+			//            如果分配资源失败则抛出 std::bad_alloc 异常
+			//*********************************************************
+			template <>
+			std::shared_ptr<std::string> get<std::shared_ptr<std::string>>(unsigned long n) const
+			{
+				return get_string_ptr(n);
+			}
+
+			//*********************************************************
 			// 函数名称 : get_udata
 			// 作    者 : Gooeen
 			// 完成日期 : 2015/09/13
@@ -747,6 +815,22 @@ namespace sql
 			std::vector<unsigned char> get<std::vector<unsigned char>>(unsigned long n) const
 			{
 				return get_udata(n);
+			}
+
+			//*********************************************************
+			// 函数名称 : get_udata_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::vector<unsigned char> 数据
+			// 异    常 : 如果 std::vector 创建失败时抛出异常
+			//*********************************************************
+			template <>
+			std::shared_ptr<std::vector<unsigned char>> get<std::shared_ptr<std::vector<unsigned char>>>(unsigned long n) const
+			{
+				return get_udata_ptr(n);
 			}
 
 			//*********************************************************
@@ -766,6 +850,22 @@ namespace sql
 			}
 
 			//*********************************************************
+			// 函数名称 : get_data_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/09
+			// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::vector<char> 数据
+			// 异    常 : 如果 std::vector 创建失败时抛出异常
+			//*********************************************************
+			template <>
+			std::shared_ptr<std::vector<char>> get<std::shared_ptr<std::vector<char>>>(unsigned long n) const
+			{
+				return get_data_ptr(n);
+			}
+
+			//*********************************************************
 			// 函数名称 : get_wstring
 			// 作    者 : Gooeen
 			// 完成日期 : 2015/09/15
@@ -778,6 +878,21 @@ namespace sql
 			std::wstring get<std::wstring>(unsigned long n) const
 			{
 				return get_wstring(n);
+			}
+
+			//*********************************************************
+			// 函数名称 : get_wstring_ptr
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/05/09
+			// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
+			// 访问方式 : public
+			// 函数参数 : unsigned long n 数据的列位置
+			// 返 回 值 : std::shared_ptr<std::wstring> 数据
+			//*********************************************************
+			template <>
+			std::shared_ptr<std::wstring> get<std::shared_ptr<std::wstring>>(unsigned long n) const
+			{
+				return get_wstring_ptr(n);
 			}
 
 			//*********************************************************

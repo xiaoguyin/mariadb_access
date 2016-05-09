@@ -504,6 +504,26 @@ std::vector<unsigned char> sql::mariadb::recordset::get_udata(unsigned long n) c
 
 
 //*********************************************************
+// 函数名称 : get_udata_ptr
+// 作    者 : Gooeen
+// 完成日期 : 2016/05/09
+// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
+// 访问方式 : public
+// 函数参数 : unsigned long n 数据的列位置
+// 返 回 值 : std::shared_ptr<std::vector<unsigned char>> 数据
+// 异    常 : 如果 std::vector 创建失败时抛出异常
+//*********************************************************
+std::shared_ptr<std::vector<unsigned char>> sql::mariadb::recordset::get_udata_ptr(unsigned long n) const
+{
+	assert(m_ptr_mysql != nullptr);
+	assert(m_ptr_res != nullptr);
+	assert(m_row != nullptr);
+	assert(n < mysql_num_fields(m_ptr_res));
+	return std::make_shared<std::vector<unsigned char>>(m_row[n], m_row[n] + this->data_size(n));
+}
+
+
+//*********************************************************
 // 函数名称 : get_data
 // 作    者 : Gooeen
 // 完成日期 : 2015/09/13
@@ -520,6 +540,26 @@ std::vector<char> sql::mariadb::recordset::get_data(unsigned long n) const
 	assert(m_row != nullptr);
 	assert(n < mysql_num_fields(m_ptr_res));
 	return std::vector<char>(m_row[n], m_row[n] + this->data_size(n));
+}
+
+
+//*********************************************************
+// 函数名称 : get_data_ptr
+// 作    者 : Gooeen
+// 完成日期 : 2016/05/09
+// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
+// 访问方式 : public
+// 函数参数 : unsigned long n 数据的列位置
+// 返 回 值 : std::shared_ptr<std::vector<char>> 数据
+// 异    常 : 如果 std::vector 创建失败时抛出异常
+//*********************************************************
+std::shared_ptr<std::vector<char>> sql::mariadb::recordset::get_data_ptr(unsigned long n) const
+{
+	assert(m_ptr_mysql != nullptr);
+	assert(m_ptr_res != nullptr);
+	assert(m_row != nullptr);
+	assert(n < mysql_num_fields(m_ptr_res));
+	return std::make_shared<std::vector<char>>(m_row[n], m_row[n] + this->data_size(n));
 }
 
 
@@ -660,6 +700,28 @@ std::string sql::mariadb::recordset::get_string(unsigned long n) const
 
 
 //*********************************************************
+// 函数名称 : get_string_ptr
+// 作    者 : Gooeen
+// 完成日期 : 2016/05/09
+// 函数说明 : 获取数据
+// 访问方式 : public
+// 函数参数 : unsigned long n 数据的列位置
+// 返 回 值 : std::shared_ptr<std::string> 数据
+// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
+//            则抛出 std::length_error 异常;
+//            如果分配资源失败则抛出 std::bad_alloc 异常
+//*********************************************************
+std::shared_ptr<std::string> sql::mariadb::recordset::get_string_ptr(unsigned long n) const
+{
+	assert(m_ptr_mysql != nullptr);
+	assert(m_ptr_res != nullptr);
+	assert(m_row != nullptr);
+	assert(n < mysql_num_fields(m_ptr_res));
+	return std::make_shared<std::string>(m_row[n]);
+}
+
+
+//*********************************************************
 // 函数名称 : get_uchar
 // 作    者 : Gooeen
 // 完成日期 : 2015/09/13
@@ -795,6 +857,25 @@ std::wstring sql::mariadb::recordset::get_wstring(unsigned long n) const
 	assert(m_row != nullptr);
 	assert(n < mysql_num_fields(m_ptr_res));
 	return std::wstring((wchar_t *)m_row[n], mysql_fetch_lengths(m_ptr_res)[n] / 2);
+}
+
+
+//*********************************************************
+// 函数名称 : get_wstring_ptr
+// 作    者 : Gooeen
+// 完成日期 : 2015/05/09
+// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
+// 访问方式 : public
+// 函数参数 : unsigned long n 数据的列位置
+// 返 回 值 : std::shared_ptr<std::wstring> 数据
+//*********************************************************
+std::shared_ptr<std::wstring> sql::mariadb::recordset::get_wstring_ptr(unsigned long n) const
+{
+	assert(m_ptr_mysql != nullptr);
+	assert(m_ptr_res != nullptr);
+	assert(m_row != nullptr);
+	assert(n < mysql_num_fields(m_ptr_res));
+	return std::make_shared<std::wstring>((wchar_t *)m_row[n], mysql_fetch_lengths(m_ptr_res)[n] / 2);
 }
 
 
@@ -1032,7 +1113,7 @@ void sql::mariadb::command::add(unsigned int pos, std::string && text)
 
 	// 保存数据的信息
 	const auto p = m_strings.back().c_str();
-	const auto size = m_strings.back().size();
+	const auto size = (unsigned long)m_strings.back().size();
 	const auto pair = std::make_pair(p, size);
 	m_parameters[pos] = std::make_pair(false, pair);
 }
@@ -1085,7 +1166,7 @@ void sql::mariadb::command::add(unsigned int pos, std::vector<char> &&data)
 
 	// 保存数据的信息
 	const auto p = m_datas.back().data();
-	const auto size = m_datas.back().size();
+	const auto size = (unsigned long)m_datas.back().size();
 	const auto pair = std::make_pair(p, size);
 	m_parameters[pos] = std::make_pair(false, pair);
 }
@@ -1138,7 +1219,7 @@ void sql::mariadb::command::add(unsigned int pos, std::vector<unsigned char> &&d
 
 	// 保存数据的信息
 	const auto p = (char *)m_udatas.back().data();
-	const auto size = m_udatas.back().size();
+	const auto size = (unsigned long)m_udatas.back().size();
 	const auto pair = std::make_pair(p, size);
 	m_parameters[pos] = std::make_pair(false, pair);
 }
@@ -1298,7 +1379,7 @@ bool sql::mariadb::command::execute(const char * text, unsigned long length) con
 bool sql::mariadb::command::execute(const std::string & text) const noexcept
 {
 	assert(m_ptr_mysql != nullptr);
-	return mysql_real_query(m_ptr_mysql, text.c_str(), text.size()) == 0;
+	return mysql_real_query(m_ptr_mysql, text.c_str(), (unsigned long)text.size()) == 0;
 }
 
 
@@ -1314,7 +1395,7 @@ bool sql::mariadb::command::execute(const std::string & text) const noexcept
 bool sql::mariadb::command::execute(const std::vector<char>& data) const noexcept
 {
 	assert(m_ptr_mysql != nullptr);
-	return mysql_real_query(m_ptr_mysql, data.data(), data.size()) == 0;
+	return mysql_real_query(m_ptr_mysql, data.data(), (unsigned long)data.size()) == 0;
 }
 
 
@@ -1392,7 +1473,7 @@ bool sql::mariadb::command::execute(void) const
 	}
 
 	// 执行SQL语句并返回是否执行成功
-	return mysql_real_query(m_ptr_mysql, statement.data(), statement.size()) == 0;
+	return mysql_real_query(m_ptr_mysql, statement.data(), (unsigned long)statement.size()) == 0;
 }
 
 
