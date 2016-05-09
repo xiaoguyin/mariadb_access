@@ -1,20 +1,20 @@
-//*********************************************************
+ï»¿//*********************************************************
 // CopyRight (C) 2015 Gooeen
 // All rights reserved
 //
-// ÎÄ¼şÃû³Æ : mariadb.cpp
+// æ–‡ä»¶åç§° : mariadb.cpp
 //
-// µ±Ç°°æ±¾ : 1.0.1
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
+// å½“å‰ç‰ˆæœ¬ : 1.0.1
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
 //
-// Õª    Òª : ÓÃÓÚ·ÃÎÊ MySQL/MariaDB µÄÀà¿â
+// æ‘˜    è¦ : ç”¨äºè®¿é—® MySQL/MariaDB çš„ç±»åº“
 //*********************************************************
 #include "mariadb.h"
 #include <cassert>
 
 
-// Èç¹ûÌõ¼şÊÇ false ÔòÅ×³öÒì³£
+// å¦‚æœæ¡ä»¶æ˜¯ false åˆ™æŠ›å‡ºå¼‚å¸¸
 #define if_false_throw(condition, message)\
 if (!condition)\
 {\
@@ -23,16 +23,16 @@ if (!condition)\
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : to_date_string
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
-// º¯ÊıËµÃ÷ : ½«ÈÕÆÚ×ª»»³É·ûºÏ MySQL/MariaDB ¸ñÊ½µÄ×Ö·û´®
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int year Äê·İ
-// º¯Êı²ÎÊı : unsigned int month ÔÂ·İ
-// º¯Êı²ÎÊı : unsigned int day ÈÕÆÚ
-// ·µ »Ø Öµ : std::string ·ûºÏ MySQL/MariaDB ¸ñÊ½µÄÈÕÆÚ×Ö·û´®
-// Òì    ³£ : Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : to_date_string
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
+// å‡½æ•°è¯´æ˜ : å°†æ—¥æœŸè½¬æ¢æˆç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„å­—ç¬¦ä¸²
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int year å¹´ä»½
+// å‡½æ•°å‚æ•° : unsigned int month æœˆä»½
+// å‡½æ•°å‚æ•° : unsigned int day æ—¥æœŸ
+// è¿” å› å€¼ : std::string ç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„æ—¥æœŸå­—ç¬¦ä¸²
+// å¼‚    å¸¸ : å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::to_date_string(unsigned int year, unsigned int month, unsigned int day)
 {
@@ -44,16 +44,16 @@ std::string sql::mariadb::to_date_string(unsigned int year, unsigned int month, 
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : to_time_string
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
-// º¯ÊıËµÃ÷ : ½«Ê±¼ä×ª»»³É·ûºÏ MySQL/MariaDB ¸ñÊ½µÄ×Ö·û´®
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int hour Ê±
-// º¯Êı²ÎÊı : unsigned int minute ·Ö
-// º¯Êı²ÎÊı : unsigned int second Ãë
-// ·µ »Ø Öµ : std::string ·ûºÏ MySQL/MariaDB ¸ñÊ½µÄÊ±¼ä×Ö·û´®
-// Òì    ³£ : Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : to_time_string
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
+// å‡½æ•°è¯´æ˜ : å°†æ—¶é—´è½¬æ¢æˆç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„å­—ç¬¦ä¸²
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int hour æ—¶
+// å‡½æ•°å‚æ•° : unsigned int minute åˆ†
+// å‡½æ•°å‚æ•° : unsigned int second ç§’
+// è¿” å› å€¼ : std::string ç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„æ—¶é—´å­—ç¬¦ä¸²
+// å¼‚    å¸¸ : å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::to_time_string(unsigned int hour, unsigned int minute, unsigned int second)
 {
@@ -65,19 +65,19 @@ std::string sql::mariadb::to_time_string(unsigned int hour, unsigned int minute,
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : to_datetime_string
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
-// º¯ÊıËµÃ÷ : ½«ÈÕÆÚÊ±¼ä×ª»»³É·ûºÏ MySQL/MariaDB ¸ñÊ½µÄ×Ö·û´®
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int year Äê
-// º¯Êı²ÎÊı : unsigned int month ÔÂ
-// º¯Êı²ÎÊı : unsigned int day ÈÕ
-// º¯Êı²ÎÊı : unsigned int hour Ê±
-// º¯Êı²ÎÊı : unsigned int minute ·Ö
-// º¯Êı²ÎÊı : unsigned int second Ãë
-// ·µ »Ø Öµ : std::string ·ûºÏ MySQL/MariaDB ¸ñÊ½µÄÈÕÆÚÊ±¼ä×Ö·û´®
-// Òì    ³£ : Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : to_datetime_string
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
+// å‡½æ•°è¯´æ˜ : å°†æ—¥æœŸæ—¶é—´è½¬æ¢æˆç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„å­—ç¬¦ä¸²
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int year å¹´
+// å‡½æ•°å‚æ•° : unsigned int month æœˆ
+// å‡½æ•°å‚æ•° : unsigned int day æ—¥
+// å‡½æ•°å‚æ•° : unsigned int hour æ—¶
+// å‡½æ•°å‚æ•° : unsigned int minute åˆ†
+// å‡½æ•°å‚æ•° : unsigned int second ç§’
+// è¿” å› å€¼ : std::string ç¬¦åˆ MySQL/MariaDB æ ¼å¼çš„æ—¥æœŸæ—¶é—´å­—ç¬¦ä¸²
+// å¼‚    å¸¸ : å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::to_datetime_string(unsigned int year, unsigned int month, unsigned int day, unsigned int hour, unsigned int minute, unsigned int second)
 {
@@ -88,17 +88,17 @@ std::string sql::mariadb::to_datetime_string(unsigned int year, unsigned int mon
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : mariadb_exception
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
-// º¯ÊıËµÃ÷ : ¹¹Ôìº¯Êı
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::string & text Òì³£ĞÅÏ¢
-// º¯Êı²ÎÊı : const std::string & file Òì³£ËùÔÚÎÄ¼ş
-// º¯Êı²ÎÊı : int line Òì³£ËùÔÚĞĞ
-// Òì    ³£ : Èç¹ûÒì³£ĞÅÏ¢³¤¶È (length) ³¬¹ı×Ö·û´®
-//            ×î´ó³¤¶È(max_size) ÔòÅ×³ö std::length_error Òì³£;
-//            Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : mariadb_exception
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
+// å‡½æ•°è¯´æ˜ : æ„é€ å‡½æ•°
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::string & text å¼‚å¸¸ä¿¡æ¯
+// å‡½æ•°å‚æ•° : const std::string & file å¼‚å¸¸æ‰€åœ¨æ–‡ä»¶
+// å‡½æ•°å‚æ•° : int line å¼‚å¸¸æ‰€åœ¨è¡Œ
+// å¼‚    å¸¸ : å¦‚æœå¼‚å¸¸ä¿¡æ¯é•¿åº¦ (length) è¶…è¿‡å­—ç¬¦ä¸²
+//            æœ€å¤§é•¿åº¦(max_size) åˆ™æŠ›å‡º std::length_error å¼‚å¸¸;
+//            å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 sql::mariadb::mariadb_exception::mariadb_exception(const std::string & text, const std::string & file, int line)
 	: m_text(text + "\r\nin " + file + ", row: " + std::to_string(line))
@@ -107,12 +107,12 @@ sql::mariadb::mariadb_exception::mariadb_exception(const std::string & text, con
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : what
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/12
-// º¯ÊıËµÃ÷ : Êä³öÒì³£ĞÅÏ¢
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : const char * Òì³£ĞÅÏ¢×Ö·û´®
+// å‡½æ•°åç§° : what
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/12
+// å‡½æ•°è¯´æ˜ : è¾“å‡ºå¼‚å¸¸ä¿¡æ¯
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : const char * å¼‚å¸¸ä¿¡æ¯å­—ç¬¦ä¸²
 //*********************************************************
 const char * sql::mariadb::mariadb_exception::what() const
 {
@@ -121,11 +121,11 @@ const char * sql::mariadb::mariadb_exception::what() const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : connection
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ¹¹Ôìº¯Êı
-// ·ÃÎÊ·½Ê½ : public
+// å‡½æ•°åç§° : connection
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : æ„é€ å‡½æ•°
+// è®¿é—®æ–¹å¼ : public
 //*********************************************************
 sql::mariadb::connection::connection(void) noexcept
 	: m_ptr_mysql(mysql_init(nullptr))
@@ -134,12 +134,12 @@ sql::mariadb::connection::connection(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : connection
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ×ªÒÆ¹¹Ôìº¯Êı, ×ªÒÆºóÔ­¶ÔÏó²»Ó¦¸ÃÊ¹ÓÃ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : connection && connector ĞèÒª×ªÒÆµÄ¶ÔÏó
+// å‡½æ•°åç§° : connection
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è½¬ç§»æ„é€ å‡½æ•°, è½¬ç§»ååŸå¯¹è±¡ä¸åº”è¯¥ä½¿ç”¨
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : connection && connector éœ€è¦è½¬ç§»çš„å¯¹è±¡
 //*********************************************************
 sql::mariadb::connection::connection(connection && connector) noexcept
 	: m_ptr_mysql(connector.m_ptr_mysql)
@@ -149,11 +149,11 @@ sql::mariadb::connection::connection(connection && connector) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : ~connection
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : Èç¹ûÊı¾İ¿âÁ¬½ÓÃ»ÓĞ¹Ø±ÕÔòÔÚÎö¹¹Ê±×Ô¶¯¹Ø±Õ
-// ·ÃÎÊ·½Ê½ : public
+// å‡½æ•°åç§° : ~connection
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : å¦‚æœæ•°æ®åº“è¿æ¥æ²¡æœ‰å…³é—­åˆ™åœ¨ææ„æ—¶è‡ªåŠ¨å…³é—­
+// è®¿é—®æ–¹å¼ : public
 //*********************************************************
 sql::mariadb::connection::~connection(void) noexcept
 {
@@ -165,14 +165,14 @@ sql::mariadb::connection::~connection(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : operator!=
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ÅĞ¶ÏÊı¾İ¿âÁ¬½ÓÆ÷ÊÇ·ñ´´½¨³É¹¦
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : std::nullptr_t null Óënullptr×÷±È½Ï
-// ·µ »Ø Öµ : bool Èç¹û´´½¨³É¹¦Ôò ¶ÔÏó != nullptr;
-//            ·´Ö® ¶ÔÏó == nullptr
+// å‡½æ•°åç§° : operator!=
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : åˆ¤æ–­æ•°æ®åº“è¿æ¥å™¨æ˜¯å¦åˆ›å»ºæˆåŠŸ
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : std::nullptr_t null ä¸nullpträ½œæ¯”è¾ƒ
+// è¿” å› å€¼ : bool å¦‚æœåˆ›å»ºæˆåŠŸåˆ™ å¯¹è±¡ != nullptr;
+//            åä¹‹ å¯¹è±¡ == nullptr
 //*********************************************************
 bool sql::mariadb::connection::operator!=(std::nullptr_t null) const noexcept
 {
@@ -181,14 +181,14 @@ bool sql::mariadb::connection::operator!=(std::nullptr_t null) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : operator==
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ÅĞ¶ÏÊı¾İ¿âÁ¬½ÓÆ÷ÊÇ·ñ´´½¨³É¹¦
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : std::nullptr_t null  Óënullptr×÷±È½Ï
-// ·µ »Ø Öµ : bool Èç¹û´´½¨³É¹¦Ôò ¶ÔÏó != nullptr;
-//            ·´Ö® ¶ÔÏó == nullptr
+// å‡½æ•°åç§° : operator==
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : åˆ¤æ–­æ•°æ®åº“è¿æ¥å™¨æ˜¯å¦åˆ›å»ºæˆåŠŸ
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : std::nullptr_t null  ä¸nullpträ½œæ¯”è¾ƒ
+// è¿” å› å€¼ : bool å¦‚æœåˆ›å»ºæˆåŠŸåˆ™ å¯¹è±¡ != nullptr;
+//            åä¹‹ å¯¹è±¡ == nullptr
 //*********************************************************
 bool sql::mariadb::connection::operator==(std::nullptr_t null) const noexcept
 {
@@ -197,19 +197,19 @@ bool sql::mariadb::connection::operator==(std::nullptr_t null) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : open
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : Á¬½ÓÊı¾İ¿â
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * user ÓÃ»§Ãû
-// º¯Êı²ÎÊı : const char * password ÃÜÂë
-// º¯Êı²ÎÊı : const char * database Êı¾İ¿âÃû
-// º¯Êı²ÎÊı : unsigned int port ·şÎñÆ÷¶Ë¿Ú
-// º¯Êı²ÎÊı : const char * host ·şÎñÆ÷ IP µØÖ·
-// º¯Êı²ÎÊı : const char * unix_socket Ö¸¶¨ĞèÒªÊ¹ÓÃµÄ socket »òÕß ÃüÃû¹ÜµÀ
-// º¯Êı²ÎÊı : unsigned long flags Á´½ÓÑ¡Ïî
-// ·µ »Ø Öµ : bool true ´ú±íÁ¬½Ó³É¹¦, false ´ú±íÁ¬½ÓÊ§°Ü
+// å‡½æ•°åç§° : open
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è¿æ¥æ•°æ®åº“
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * user ç”¨æˆ·å
+// å‡½æ•°å‚æ•° : const char * password å¯†ç 
+// å‡½æ•°å‚æ•° : const char * database æ•°æ®åº“å
+// å‡½æ•°å‚æ•° : unsigned int port æœåŠ¡å™¨ç«¯å£
+// å‡½æ•°å‚æ•° : const char * host æœåŠ¡å™¨ IP åœ°å€
+// å‡½æ•°å‚æ•° : const char * unix_socket æŒ‡å®šéœ€è¦ä½¿ç”¨çš„ socket æˆ–è€… å‘½åç®¡é“
+// å‡½æ•°å‚æ•° : unsigned long flags é“¾æ¥é€‰é¡¹
+// è¿” å› å€¼ : bool true ä»£è¡¨è¿æ¥æˆåŠŸ, false ä»£è¡¨è¿æ¥å¤±è´¥
 //*********************************************************
 bool sql::mariadb::connection::open(const char * user, const char * password, const char * database, unsigned int port, const char * host, const char * unix_socket, unsigned long flags) const noexcept
 {
@@ -230,11 +230,11 @@ bool sql::mariadb::connection::open(const char * user, const char * password, co
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : close
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ¹Ø±ÕÊı¾İ¿âÁ¬½Ó, Èç¹û²»¹Ø±ÕÊı¾İ¿âÁ¬½Ó, ÔòÎö¹¹Ê±×Ô¶¯¹Ø±Õ
-// ·ÃÎÊ·½Ê½ : public
+// å‡½æ•°åç§° : close
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : å…³é—­æ•°æ®åº“è¿æ¥, å¦‚æœä¸å…³é—­æ•°æ®åº“è¿æ¥, åˆ™ææ„æ—¶è‡ªåŠ¨å…³é—­
+// è®¿é—®æ–¹å¼ : public
 //*********************************************************
 void sql::mariadb::connection::close(void) noexcept
 {
@@ -247,12 +247,12 @@ void sql::mariadb::connection::close(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : error
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎóĞÅÏ¢
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : std::string ´íÎóĞÅÏ¢
+// å‡½æ•°åç§° : error
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä¿¡æ¯
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : std::string é”™è¯¯ä¿¡æ¯
 //*********************************************************
 std::string sql::mariadb::connection::error(void) const noexcept
 try
@@ -266,12 +266,12 @@ catch (const std::exception &)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : errorno
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎó´úºÅ
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : unsigned int ´íÎó´úºÅ
+// å‡½æ•°åç§° : errorno
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä»£å·
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : unsigned int é”™è¯¯ä»£å·
 //*********************************************************
 unsigned int sql::mariadb::connection::errorno(void) const noexcept
 {
@@ -280,12 +280,12 @@ unsigned int sql::mariadb::connection::errorno(void) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : recordset
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ×ªÒÆ¹¹Ôìº¯Êı, ×ªÒÆºóÔ­¶ÔÏó²»Ó¦¸ÃÊ¹ÓÃ
-// ·ÃÎÊ·½Ê½ : private
-// º¯Êı²ÎÊı : recordset && reader ĞèÒª×ªÒÆµÄ¶ÔÏó
+// å‡½æ•°åç§° : recordset
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è½¬ç§»æ„é€ å‡½æ•°, è½¬ç§»ååŸå¯¹è±¡ä¸åº”è¯¥ä½¿ç”¨
+// è®¿é—®æ–¹å¼ : private
+// å‡½æ•°å‚æ•° : recordset && reader éœ€è¦è½¬ç§»çš„å¯¹è±¡
 //*********************************************************
 sql::mariadb::recordset::recordset(recordset && reader) noexcept
 	: m_ptr_mysql(reader.m_ptr_mysql)
@@ -299,11 +299,11 @@ sql::mariadb::recordset::recordset(recordset && reader) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : ~recordset
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : Èç¹û½á¹û¼¯Ã»ÓĞÊÍ·Å¹Ø±ÕÔòÔÚÎö¹¹Ê±×Ô¶¯¹Ø±Õ
-// ·ÃÎÊ·½Ê½ : public
+// å‡½æ•°åç§° : ~recordset
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : å¦‚æœç»“æœé›†æ²¡æœ‰é‡Šæ”¾å…³é—­åˆ™åœ¨ææ„æ—¶è‡ªåŠ¨å…³é—­
+// è®¿é—®æ–¹å¼ : public
 //*********************************************************
 sql::mariadb::recordset::~recordset(void) noexcept
 {
@@ -315,14 +315,14 @@ sql::mariadb::recordset::~recordset(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : operator!=
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ÅĞ¶ÏÊı¾İ¿âÁ¬½ÓÆ÷ÊÇ·ñ´´½¨³É¹¦
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : std::nullptr_t null Óënullptr×÷±È½Ï
-// ·µ »Ø Öµ : bool Èç¹û´´½¨³É¹¦Ôò ¶ÔÏó != nullptr;
-//            ·´Ö® ¶ÔÏó == nullptr
+// å‡½æ•°åç§° : operator!=
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : åˆ¤æ–­æ•°æ®åº“è¿æ¥å™¨æ˜¯å¦åˆ›å»ºæˆåŠŸ
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : std::nullptr_t null ä¸nullpträ½œæ¯”è¾ƒ
+// è¿” å› å€¼ : bool å¦‚æœåˆ›å»ºæˆåŠŸåˆ™ å¯¹è±¡ != nullptr;
+//            åä¹‹ å¯¹è±¡ == nullptr
 //*********************************************************
 bool sql::mariadb::recordset::operator!=(std::nullptr_t null) const noexcept
 {
@@ -331,14 +331,14 @@ bool sql::mariadb::recordset::operator!=(std::nullptr_t null) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : operator==
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ÅĞ¶ÏÊı¾İ¿âÁ¬½ÓÆ÷ÊÇ·ñ´´½¨³É¹¦
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : std::nullptr_t null  Óënullptr×÷±È½Ï
-// ·µ »Ø Öµ : bool Èç¹û´´½¨³É¹¦Ôò ¶ÔÏó != nullptr;
-//            ·´Ö® ¶ÔÏó == nullptr
+// å‡½æ•°åç§° : operator==
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : åˆ¤æ–­æ•°æ®åº“è¿æ¥å™¨æ˜¯å¦åˆ›å»ºæˆåŠŸ
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : std::nullptr_t null  ä¸nullpträ½œæ¯”è¾ƒ
+// è¿” å› å€¼ : bool å¦‚æœåˆ›å»ºæˆåŠŸåˆ™ å¯¹è±¡ != nullptr;
+//            åä¹‹ å¯¹è±¡ == nullptr
 //*********************************************************
 bool sql::mariadb::recordset::operator==(std::nullptr_t null) const noexcept
 {
@@ -347,11 +347,11 @@ bool sql::mariadb::recordset::operator==(std::nullptr_t null) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : close
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ÊÍ·Å½á¹û¼¯ËùÕ¼ÓÃµÄ×ÊÔ´, Èç¹û²»ÊÖ¶¯ÊÍ·Å×ÊÔ´, ÔòÎö¹¹Ê±×Ô¶¯ÊÍ·Å
-// ·ÃÎÊ·½Ê½ : public
+// å‡½æ•°åç§° : close
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : é‡Šæ”¾ç»“æœé›†æ‰€å ç”¨çš„èµ„æº, å¦‚æœä¸æ‰‹åŠ¨é‡Šæ”¾èµ„æº, åˆ™ææ„æ—¶è‡ªåŠ¨é‡Šæ”¾
+// è®¿é—®æ–¹å¼ : public
 //*********************************************************
 void sql::mariadb::recordset::close(void) noexcept
 {
@@ -365,12 +365,12 @@ void sql::mariadb::recordset::close(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : error
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎóĞÅÏ¢
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : std::string ´íÎóĞÅÏ¢
+// å‡½æ•°åç§° : error
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä¿¡æ¯
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : std::string é”™è¯¯ä¿¡æ¯
 //*********************************************************
 std::string sql::mariadb::recordset::error(void) const noexcept
 try
@@ -384,12 +384,12 @@ catch (const std::exception &)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : errorno
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎó´úºÅ
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : unsigned int ´íÎó´úºÅ
+// å‡½æ•°åç§° : errorno
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä»£å·
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : unsigned int é”™è¯¯ä»£å·
 //*********************************************************
 unsigned int sql::mariadb::recordset::errorno(void) const noexcept
 {
@@ -398,12 +398,12 @@ unsigned int sql::mariadb::recordset::errorno(void) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : row_count
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İµÄĞĞÊı
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : unsigned long long ĞĞÊı
+// å‡½æ•°åç§° : row_count
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®çš„è¡Œæ•°
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : unsigned long long è¡Œæ•°
 //*********************************************************
 unsigned long long sql::mariadb::recordset::row_count(void) const noexcept
 {
@@ -414,12 +414,12 @@ unsigned long long sql::mariadb::recordset::row_count(void) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : field_count
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İµÄÁĞÊı(×Ö¶ÎÊıÁ¿)
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : unsigned long ÁĞÊı(×Ö¶ÎÊıÁ¿)
+// å‡½æ•°åç§° : field_count
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®çš„åˆ—æ•°(å­—æ®µæ•°é‡)
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : unsigned long åˆ—æ•°(å­—æ®µæ•°é‡)
 //*********************************************************
 unsigned long sql::mariadb::recordset::field_count(void) const noexcept
 {
@@ -430,13 +430,13 @@ unsigned long sql::mariadb::recordset::field_count(void) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : data_size
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡µ¥ÌõÊı¾İµÄ³¤¶È
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ; Èç¹û³¬³öÊı¾İµÄÁĞÊıÔò¿ÉÄÜ³öÏÖÊı×éÔ½½çµÄÎÊÌâ
-// ·µ »Ø Öµ : unsigned long µ¥ÌõÊı¾İµÄ×Ö½ÚÊı
+// å‡½æ•°åç§° : data_size
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–å•æ¡æ•°æ®çš„é•¿åº¦
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®; å¦‚æœè¶…å‡ºæ•°æ®çš„åˆ—æ•°åˆ™å¯èƒ½å‡ºç°æ•°ç»„è¶Šç•Œçš„é—®é¢˜
+// è¿” å› å€¼ : unsigned long å•æ¡æ•°æ®çš„å­—èŠ‚æ•°
 //*********************************************************
 unsigned long sql::mariadb::recordset::data_size(unsigned long n) const noexcept
 {
@@ -448,12 +448,12 @@ unsigned long sql::mariadb::recordset::data_size(unsigned long n) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : read
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : ¶ÁÈ¡ÏÂÒ»ÌõÊı¾İ
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : bool ³É¹¦·µ»Øtrue, Ê§°Ü·µ»Øfalse
+// å‡½æ•°åç§° : read
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è¯»å–ä¸‹ä¸€æ¡æ•°æ®
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : bool æˆåŠŸè¿”å›true, å¤±è´¥è¿”å›false
 //*********************************************************
 bool sql::mariadb::recordset::read(void) noexcept
 {
@@ -465,13 +465,13 @@ bool sql::mariadb::recordset::read(void) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_char
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É char ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : char Êı¾İ
+// å‡½æ•°åç§° : get_char
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ char ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : char æ•°æ®
 //*********************************************************
 char sql::mariadb::recordset::get_char(unsigned long n) const
 {
@@ -484,14 +484,14 @@ char sql::mariadb::recordset::get_char(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_udata
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÓÃ std::vector<unsigned char> ¶ÔÏó±£´æ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::vector<unsigned char> Êı¾İ
-// Òì    ³£ : Èç¹û std::vector ´´½¨Ê§°ÜÊ±Å×³öÒì³£
+// å‡½æ•°åç§° : get_udata
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®ç”¨ std::vector<unsigned char> å¯¹è±¡ä¿å­˜
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::vector<unsigned char> æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœ std::vector åˆ›å»ºå¤±è´¥æ—¶æŠ›å‡ºå¼‚å¸¸
 //*********************************************************
 std::vector<unsigned char> sql::mariadb::recordset::get_udata(unsigned long n) const
 {
@@ -504,14 +504,14 @@ std::vector<unsigned char> sql::mariadb::recordset::get_udata(unsigned long n) c
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_udata_ptr
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2016/05/09
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÓÃ std::vector<unsigned char> ¶ÔÏó±£´æ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::shared_ptr<std::vector<unsigned char>> Êı¾İ
-// Òì    ³£ : Èç¹û std::vector ´´½¨Ê§°ÜÊ±Å×³öÒì³£
+// å‡½æ•°åç§° : get_udata_ptr
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2016/05/09
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®ç”¨ std::vector<unsigned char> å¯¹è±¡ä¿å­˜
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::shared_ptr<std::vector<unsigned char>> æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœ std::vector åˆ›å»ºå¤±è´¥æ—¶æŠ›å‡ºå¼‚å¸¸
 //*********************************************************
 std::shared_ptr<std::vector<unsigned char>> sql::mariadb::recordset::get_udata_ptr(unsigned long n) const
 {
@@ -524,14 +524,14 @@ std::shared_ptr<std::vector<unsigned char>> sql::mariadb::recordset::get_udata_p
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_data
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÓÃ std::vector<char> ¶ÔÏó±£´æ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::vector<char> Êı¾İ
-// Òì    ³£ : Èç¹û std::vector ´´½¨Ê§°ÜÊ±Å×³öÒì³£
+// å‡½æ•°åç§° : get_data
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®ç”¨ std::vector<char> å¯¹è±¡ä¿å­˜
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::vector<char> æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœ std::vector åˆ›å»ºå¤±è´¥æ—¶æŠ›å‡ºå¼‚å¸¸
 //*********************************************************
 std::vector<char> sql::mariadb::recordset::get_data(unsigned long n) const
 {
@@ -544,14 +544,14 @@ std::vector<char> sql::mariadb::recordset::get_data(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_data_ptr
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2016/05/09
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÓÃ std::vector<char> ¶ÔÏó±£´æ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::shared_ptr<std::vector<char>> Êı¾İ
-// Òì    ³£ : Èç¹û std::vector ´´½¨Ê§°ÜÊ±Å×³öÒì³£
+// å‡½æ•°åç§° : get_data_ptr
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2016/05/09
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®ç”¨ std::vector<char> å¯¹è±¡ä¿å­˜
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::shared_ptr<std::vector<char>> æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœ std::vector åˆ›å»ºå¤±è´¥æ—¶æŠ›å‡ºå¼‚å¸¸
 //*********************************************************
 std::shared_ptr<std::vector<char>> sql::mariadb::recordset::get_data_ptr(unsigned long n) const
 {
@@ -564,13 +564,13 @@ std::shared_ptr<std::vector<char>> sql::mariadb::recordset::get_data_ptr(unsigne
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_double
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É double ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : double Êı¾İ
+// å‡½æ•°åç§° : get_double
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ double ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : double æ•°æ®
 //*********************************************************
 double sql::mariadb::recordset::get_double(unsigned long n) const
 {
@@ -583,13 +583,13 @@ double sql::mariadb::recordset::get_double(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_float
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É float ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : float Êı¾İ
+// å‡½æ•°åç§° : get_float
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ float ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : float æ•°æ®
 //*********************************************************
 float sql::mariadb::recordset::get_float(unsigned long n) const
 {
@@ -602,13 +602,13 @@ float sql::mariadb::recordset::get_float(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_int
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É int ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : int Êı¾İ
+// å‡½æ•°åç§° : get_int
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ int ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : int æ•°æ®
 //*********************************************************
 int sql::mariadb::recordset::get_int(unsigned long n) const
 {
@@ -621,13 +621,13 @@ int sql::mariadb::recordset::get_int(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_long
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É long ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : long Êı¾İ
+// å‡½æ•°åç§° : get_long
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ long ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : long æ•°æ®
 //*********************************************************
 long sql::mariadb::recordset::get_long(unsigned long n) const
 {
@@ -640,13 +640,13 @@ long sql::mariadb::recordset::get_long(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_longlong
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É long long ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : long long Êı¾İ
+// å‡½æ•°åç§° : get_longlong
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ long long ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : long long æ•°æ®
 //*********************************************************
 long long sql::mariadb::recordset::get_longlong(unsigned long n) const
 {
@@ -659,13 +659,13 @@ long long sql::mariadb::recordset::get_longlong(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_short
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É short ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : short Êı¾İ
+// å‡½æ•°åç§° : get_short
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ short ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : short æ•°æ®
 //*********************************************************
 short sql::mariadb::recordset::get_short(unsigned long n) const
 {
@@ -678,16 +678,16 @@ short sql::mariadb::recordset::get_short(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_string
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::string Êı¾İ
-// Òì    ³£ : Èç¹ûÊı¾İ³¤¶È (length) ³¬¹ı×Ö·û´®×î´ó³¤¶È(max_size)
-//            ÔòÅ×³ö std::length_error Òì³£;
-//            Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : get_string
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::string æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœæ•°æ®é•¿åº¦ (length) è¶…è¿‡å­—ç¬¦ä¸²æœ€å¤§é•¿åº¦(max_size)
+//            åˆ™æŠ›å‡º std::length_error å¼‚å¸¸;
+//            å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::recordset::get_string(unsigned long n) const
 {
@@ -700,16 +700,16 @@ std::string sql::mariadb::recordset::get_string(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_string_ptr
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2016/05/09
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::shared_ptr<std::string> Êı¾İ
-// Òì    ³£ : Èç¹ûÊı¾İ³¤¶È (length) ³¬¹ı×Ö·û´®×î´ó³¤¶È(max_size)
-//            ÔòÅ×³ö std::length_error Òì³£;
-//            Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : get_string_ptr
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2016/05/09
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::shared_ptr<std::string> æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœæ•°æ®é•¿åº¦ (length) è¶…è¿‡å­—ç¬¦ä¸²æœ€å¤§é•¿åº¦(max_size)
+//            åˆ™æŠ›å‡º std::length_error å¼‚å¸¸;
+//            å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 std::shared_ptr<std::string> sql::mariadb::recordset::get_string_ptr(unsigned long n) const
 {
@@ -722,13 +722,13 @@ std::shared_ptr<std::string> sql::mariadb::recordset::get_string_ptr(unsigned lo
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_uchar
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É unsigned char ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : unsigned char Êı¾İ
+// å‡½æ•°åç§° : get_uchar
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ unsigned char ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : unsigned char æ•°æ®
 //*********************************************************
 unsigned char sql::mariadb::recordset::get_uchar(unsigned long n) const
 {
@@ -741,15 +741,15 @@ unsigned char sql::mariadb::recordset::get_uchar(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_uint
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/13
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É unsigned int ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : unsigned int Êı¾İ
-// Òì    ³£ : Èç¹ûÇ¿ÖÆ×ª»»Ê§°Ü, ÔòÅ×³ö std::invalid_argument Òì³£;
-//            Èç¹ûÊı¾İÖµ´óÓÚ unsigned int µÄÈ¡Öµ·¶Î§, ÔòÅ×³ö std::out_of_range Òì³£
+// å‡½æ•°åç§° : get_uint
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/13
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ unsigned int ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : unsigned int æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœå¼ºåˆ¶è½¬æ¢å¤±è´¥, åˆ™æŠ›å‡º std::invalid_argument å¼‚å¸¸;
+//            å¦‚æœæ•°æ®å€¼å¤§äº unsigned int çš„å–å€¼èŒƒå›´, åˆ™æŠ›å‡º std::out_of_range å¼‚å¸¸
 //*********************************************************
 unsigned int sql::mariadb::recordset::get_uint(unsigned long n) const
 {
@@ -762,15 +762,15 @@ unsigned int sql::mariadb::recordset::get_uint(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_ulong
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É unsigned long ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : unsigned long Êı¾İ
-// Òì    ³£ : Èç¹ûÇ¿ÖÆ×ª»»Ê§°Ü, ÔòÅ×³ö std::invalid_argument Òì³£;
-//            Èç¹ûÊı¾İÖµ´óÓÚ unsigned long µÄÈ¡Öµ·¶Î§, ÔòÅ×³ö std::out_of_range Òì³£
+// å‡½æ•°åç§° : get_ulong
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ unsigned long ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : unsigned long æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœå¼ºåˆ¶è½¬æ¢å¤±è´¥, åˆ™æŠ›å‡º std::invalid_argument å¼‚å¸¸;
+//            å¦‚æœæ•°æ®å€¼å¤§äº unsigned long çš„å–å€¼èŒƒå›´, åˆ™æŠ›å‡º std::out_of_range å¼‚å¸¸
 //*********************************************************
 unsigned long sql::mariadb::recordset::get_ulong(unsigned long n) const
 {
@@ -783,15 +783,15 @@ unsigned long sql::mariadb::recordset::get_ulong(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_ulonglong
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É unsigned long long ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : unsigned long long Êı¾İ
-// Òì    ³£ : Èç¹ûÇ¿ÖÆ×ª»»Ê§°Ü, ÔòÅ×³ö std::invalid_argument Òì³£;
-//            Èç¹ûÊı¾İÖµ´óÓÚ unsigned long long µÄÈ¡Öµ·¶Î§, ÔòÅ×³ö std::out_of_range Òì³£
+// å‡½æ•°åç§° : get_ulonglong
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ unsigned long long ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : unsigned long long æ•°æ®
+// å¼‚    å¸¸ : å¦‚æœå¼ºåˆ¶è½¬æ¢å¤±è´¥, åˆ™æŠ›å‡º std::invalid_argument å¼‚å¸¸;
+//            å¦‚æœæ•°æ®å€¼å¤§äº unsigned long long çš„å–å€¼èŒƒå›´, åˆ™æŠ›å‡º std::out_of_range å¼‚å¸¸
 //*********************************************************
 unsigned long long sql::mariadb::recordset::get_ulonglong(unsigned long n) const
 {
@@ -804,13 +804,13 @@ unsigned long long sql::mariadb::recordset::get_ulonglong(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_ushort
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İ×ª»»³É unsigned short ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : unsigned short Êı¾İ
+// å‡½æ•°åç§° : get_ushort
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®è½¬æ¢æˆ unsigned short ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : unsigned short æ•°æ®
 //*********************************************************
 unsigned short sql::mariadb::recordset::get_ushort(unsigned long n) const
 {
@@ -823,13 +823,13 @@ unsigned short sql::mariadb::recordset::get_ushort(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_wchar
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É wchar_t ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : wchar_t Êı¾İ
+// å‡½æ•°åç§° : get_wchar
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ wchar_t ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : wchar_t æ•°æ®
 //*********************************************************
 wchar_t sql::mariadb::recordset::get_wchar(unsigned long n) const
 {
@@ -842,13 +842,13 @@ wchar_t sql::mariadb::recordset::get_wchar(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_wstring
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É std::wstring ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::wstring Êı¾İ
+// å‡½æ•°åç§° : get_wstring
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ std::wstring ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::wstring æ•°æ®
 //*********************************************************
 std::wstring sql::mariadb::recordset::get_wstring(unsigned long n) const
 {
@@ -861,13 +861,13 @@ std::wstring sql::mariadb::recordset::get_wstring(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_wstring_ptr
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/05/09
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É std::wstring ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : std::shared_ptr<std::wstring> Êı¾İ
+// å‡½æ•°åç§° : get_wstring_ptr
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/05/09
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ std::wstring ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : std::shared_ptr<std::wstring> æ•°æ®
 //*********************************************************
 std::shared_ptr<std::wstring> sql::mariadb::recordset::get_wstring_ptr(unsigned long n) const
 {
@@ -880,13 +880,13 @@ std::shared_ptr<std::wstring> sql::mariadb::recordset::get_wstring_ptr(unsigned 
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_raw
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ²»½øĞĞ×ª»», Ö±½Ó»ñÈ¡´ÓÊı¾İ¿â·µ»ØµÄÊı¾İ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : const char * Êı¾İ
+// å‡½æ•°åç§° : get_raw
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : ä¸è¿›è¡Œè½¬æ¢, ç›´æ¥è·å–ä»æ•°æ®åº“è¿”å›çš„æ•°æ®
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : const char * æ•°æ®
 //*********************************************************
 const char * sql::mariadb::recordset::get_raw(unsigned long n) const
 {
@@ -899,13 +899,13 @@ const char * sql::mariadb::recordset::get_raw(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : get_bool
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ, ²¢½«Êı¾İÇ¿ÖÆ×ª»»³É bool ÀàĞÍ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned long n Êı¾İµÄÁĞÎ»ÖÃ
-// ·µ »Ø Öµ : bool Êı¾İ
+// å‡½æ•°åç§° : get_bool
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®, å¹¶å°†æ•°æ®å¼ºåˆ¶è½¬æ¢æˆ bool ç±»å‹
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned long n æ•°æ®çš„åˆ—ä½ç½®
+// è¿” å› å€¼ : bool æ•°æ®
 //*********************************************************
 bool sql::mariadb::recordset::get_bool(unsigned long n) const
 {
@@ -918,12 +918,12 @@ bool sql::mariadb::recordset::get_bool(unsigned long n) const
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : recordset
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ÓÉ command Àà¶ÔÏó´´½¨ recordset Àà¶ÔÏó
-// ·ÃÎÊ·½Ê½ : private
-// º¯Êı²ÎÊı : MYSQL * pointer Êı¾İ¿â¾ä±ú
+// å‡½æ•°åç§° : recordset
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : ç”± command ç±»å¯¹è±¡åˆ›å»º recordset ç±»å¯¹è±¡
+// è®¿é—®æ–¹å¼ : private
+// å‡½æ•°å‚æ•° : MYSQL * pointer æ•°æ®åº“å¥æŸ„
 //*********************************************************
 sql::mariadb::recordset::recordset(MYSQL * pointer) noexcept
 	: m_ptr_mysql(pointer)
@@ -934,12 +934,12 @@ sql::mariadb::recordset::recordset(MYSQL * pointer) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : command
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ×ªÒÆ¹¹Ôìº¯Êı, ×ªÒÆºóÔ­¶ÔÏó²»Ó¦¸ÃÊ¹ÓÃ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : command && executor ĞèÒª×ªÒÆµÄ¶ÔÏó
+// å‡½æ•°åç§° : command
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è½¬ç§»æ„é€ å‡½æ•°, è½¬ç§»ååŸå¯¹è±¡ä¸åº”è¯¥ä½¿ç”¨
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : command && executor éœ€è¦è½¬ç§»çš„å¯¹è±¡
 //*********************************************************
 sql::mariadb::command::command(command && executor) noexcept
 	: m_ptr_mysql(executor.m_ptr_mysql)
@@ -954,12 +954,12 @@ sql::mariadb::command::command(command && executor) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : command
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ¹¹Ôìº¯Êı
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const connection & connector Êı¾İ¿âÁ¬½ÓÀà
+// å‡½æ•°åç§° : command
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : æ„é€ å‡½æ•°
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const connection & connector æ•°æ®åº“è¿æ¥ç±»
 //*********************************************************
 sql::mariadb::command::command(const connection & connector) noexcept
 	: m_ptr_mysql(connector.m_ptr_mysql)
@@ -968,14 +968,14 @@ sql::mariadb::command::command(const connection & connector) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : command
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ¹¹Ôìº¯Êı
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const connection & connector Êı¾İ¿âÁ¬½ÓÀà
-// º¯Êı²ÎÊı : const std::string & text SQLÓï¾ä
-// Òì    ³£ : Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : command
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : æ„é€ å‡½æ•°
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const connection & connector æ•°æ®åº“è¿æ¥ç±»
+// å‡½æ•°å‚æ•° : const std::string & text SQLè¯­å¥
+// å¼‚    å¸¸ : å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 sql::mariadb::command::command(const connection & connector, const std::string & text)
 	: command(connector, std::string(text))
@@ -984,13 +984,13 @@ sql::mariadb::command::command(const connection & connector, const std::string &
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : command
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : ¹¹Ôìº¯Êı
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const connection & connector Êı¾İ¿âÁ¬½ÓÀà
-// º¯Êı²ÎÊı : std::string && text SQLÓï¾ä
+// å‡½æ•°åç§° : command
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : æ„é€ å‡½æ•°
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const connection & connector æ•°æ®åº“è¿æ¥ç±»
+// å‡½æ•°å‚æ•° : std::string && text SQLè¯­å¥
 //*********************************************************
 sql::mariadb::command::command(const connection & connector, std::string && text) noexcept
 	: m_ptr_mysql(connector.m_ptr_mysql)
@@ -1000,13 +1000,13 @@ sql::mariadb::command::command(const connection & connector, std::string && text
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : error
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎóĞÅÏ¢
-// ·ÃÎÊ·½Ê½ : public 
-// º¯Êı²ÎÊı : void
-// ·µ »Ø Öµ : std::string ´íÎóĞÅÏ¢
+// å‡½æ•°åç§° : error
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä¿¡æ¯
+// è®¿é—®æ–¹å¼ : public 
+// å‡½æ•°å‚æ•° : void
+// è¿” å› å€¼ : std::string é”™è¯¯ä¿¡æ¯
 //*********************************************************
 std::string sql::mariadb::command::error(void) const noexcept
 try
@@ -1020,12 +1020,12 @@ catch (const std::exception &)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : errorno
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : »ñÈ¡Êı¾İ¿â²Ù×÷Ê§°ÜµÄ´íÎó´úºÅ
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : unsigned int ´íÎó´úºÅ
+// å‡½æ•°åç§° : errorno
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : è·å–æ•°æ®åº“æ“ä½œå¤±è´¥çš„é”™è¯¯ä»£å·
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : unsigned int é”™è¯¯ä»£å·
 //*********************************************************
 unsigned int sql::mariadb::command::errorno(void) const noexcept
 {
@@ -1034,15 +1034,15 @@ unsigned int sql::mariadb::command::errorno(void) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : prepare
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : Ô¤´æSQLÓï¾ä; ¿ÉÊ¹ÓÃÒÔÏÂÀı×Ó·À×¢Èë
+// å‡½æ•°åç§° : prepare
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : é¢„å­˜SQLè¯­å¥; å¯ä½¿ç”¨ä»¥ä¸‹ä¾‹å­é˜²æ³¨å…¥
 //            executer.prepare("select * from table where id = ?");
 //            executer.add(12);
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : std::string && text
-// ·µ »Ø Öµ : void
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : std::string && text
+// è¿” å› å€¼ : void
 //*********************************************************
 void sql::mariadb::command::prepare(std::string && text) noexcept
 {
@@ -1051,14 +1051,14 @@ void sql::mariadb::command::prepare(std::string && text) noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : prepare
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/15
-// º¯ÊıËµÃ÷ : Ô¤´æSQLÓï¾ä; ¿ÉÊ¹ÓÃÒÔÏÂÀı×Ó·À×¢Èë
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::string & text SQLÓï¾ä
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û³¢ÊÔ·ÖÅä¿Õ¼äÊ§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// å‡½æ•°åç§° : prepare
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/15
+// å‡½æ•°è¯´æ˜ : é¢„å­˜SQLè¯­å¥; å¯ä½¿ç”¨ä»¥ä¸‹ä¾‹å­é˜²æ³¨å…¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::string & text SQLè¯­å¥
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœå°è¯•åˆ†é…ç©ºé—´å¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::prepare(const std::string & text)
 {
@@ -1067,21 +1067,21 @@ void sql::mariadb::command::prepare(const std::string & text)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, const std::string & text)
 {
@@ -1090,28 +1090,28 @@ void sql::mariadb::command::add(unsigned int pos, const std::string & text)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, std::string && text)
 {
-	// ±£´æ×Ö·û´®
+	// ä¿å­˜å­—ç¬¦ä¸²
 	m_strings.push_back(std::move(text));
 
-	// ±£´æÊı¾İµÄĞÅÏ¢
+	// ä¿å­˜æ•°æ®çš„ä¿¡æ¯
 	const auto p = m_strings.back().c_str();
 	const auto size = (unsigned long)m_strings.back().size();
 	const auto pair = std::make_pair(p, size);
@@ -1120,21 +1120,21 @@ void sql::mariadb::command::add(unsigned int pos, std::string && text)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, const std::vector<char> &data)
 {
@@ -1143,28 +1143,28 @@ void sql::mariadb::command::add(unsigned int pos, const std::vector<char> &data)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, std::vector<char> &&data)
 {
-	// ±£´æÊı¾İ
+	// ä¿å­˜æ•°æ®
 	m_datas.push_back(std::move(data));
 
-	// ±£´æÊı¾İµÄĞÅÏ¢
+	// ä¿å­˜æ•°æ®çš„ä¿¡æ¯
 	const auto p = m_datas.back().data();
 	const auto size = (unsigned long)m_datas.back().size();
 	const auto pair = std::make_pair(p, size);
@@ -1173,21 +1173,21 @@ void sql::mariadb::command::add(unsigned int pos, std::vector<char> &&data)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, const std::vector<unsigned char> &data)
 {
@@ -1196,28 +1196,28 @@ void sql::mariadb::command::add(unsigned int pos, const std::vector<unsigned cha
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : add
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ìí¼ÓÊı¾İ, Ö´ĞĞSQLÓï¾äÊ±½«±¾´ÎÌí¼ÓµÄÊı¾İÓÃµ¥Òı
-//            ºÅÒıÆğºó´úÌæSQLÓï¾äÖĞµÚ pos ¸öÎÊºÅ; Àı×ÓÈçÏÂ:
+// å‡½æ•°åç§° : add
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ·»åŠ æ•°æ®, æ‰§è¡ŒSQLè¯­å¥æ—¶å°†æœ¬æ¬¡æ·»åŠ çš„æ•°æ®ç”¨å•å¼•
+//            å·å¼•èµ·åä»£æ›¿SQLè¯­å¥ä¸­ç¬¬ pos ä¸ªé—®å·; ä¾‹å­å¦‚ä¸‹:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
 //            executer.add(1, "data");
-//            ÔÚÖ´ĞĞSQLÓï¾äÊ±½«²úÉú SQLÓï¾ä:
+//            åœ¨æ‰§è¡ŒSQLè¯­å¥æ—¶å°†äº§ç”Ÿ SQLè¯­å¥:
 //            insert into table1 values(12, 'data')
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : unsigned int pos ĞèÒª´úÌæÎÊºÅµÄÎ»ÖÃ, ´Ó0¿ªÊ¼
-// º¯Êı²ÎÊı : const std::string & text Êı¾İ, ´ËÊı¾İÔÚSQLÓï¾äÖĞ½«ÒÔµ¥ÒıºÅÒıÓÃ
-// ·µ »Ø Öµ : void
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : unsigned int pos éœ€è¦ä»£æ›¿é—®å·çš„ä½ç½®, ä»0å¼€å§‹
+// å‡½æ•°å‚æ•° : const std::string & text æ•°æ®, æ­¤æ•°æ®åœ¨SQLè¯­å¥ä¸­å°†ä»¥å•å¼•å·å¼•ç”¨
+// è¿” å› å€¼ : void
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, std::vector<unsigned char> &&data)
 {
-	// ±£´æÊı¾İ
+	// ä¿å­˜æ•°æ®
 	m_udatas.push_back(std::move(data));
 
-	// ±£´æÊı¾İµÄĞÅÏ¢
+	// ä¿å­˜æ•°æ®çš„ä¿¡æ¯
 	const auto p = (char *)m_udatas.back().data();
 	const auto size = (unsigned long)m_udatas.back().size();
 	const auto pair = std::make_pair(p, size);
@@ -1226,15 +1226,15 @@ void sql::mariadb::command::add(unsigned int pos, std::vector<unsigned char> &&d
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : escape
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : ×ª»»Êı¾İ²¢±£´æµ½ to ²ÎÊıËùÖ¸ÏòµÄ»º³åÇø
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : char * to ±£´æ×ª»»ºóµÄ×Ö·û´®µÄ»º³åÇø, »º³åÇø´óĞ¡Ó¦¸Ã±È (size * 2 + 1) ´ó
-// º¯Êı²ÎÊı : const char * from ĞèÒª×ª»»µÄ×Ö·û´®
-// º¯Êı²ÎÊı : unsigned long size from µÄ³¤¶È
-// ·µ »Ø Öµ : unsigned long ×ª»»µÄ×Ö½ÚÊı
+// å‡½æ•°åç§° : escape
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : è½¬æ¢æ•°æ®å¹¶ä¿å­˜åˆ° to å‚æ•°æ‰€æŒ‡å‘çš„ç¼“å†²åŒº
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : char * to ä¿å­˜è½¬æ¢åçš„å­—ç¬¦ä¸²çš„ç¼“å†²åŒº, ç¼“å†²åŒºå¤§å°åº”è¯¥æ¯” (size * 2 + 1) å¤§
+// å‡½æ•°å‚æ•° : const char * from éœ€è¦è½¬æ¢çš„å­—ç¬¦ä¸²
+// å‡½æ•°å‚æ•° : unsigned long size from çš„é•¿åº¦
+// è¿” å› å€¼ : unsigned long è½¬æ¢çš„å­—èŠ‚æ•°
 //*********************************************************
 unsigned long sql::mariadb::command::escape(char * to, const char * from, unsigned long size) const noexcept
 {
@@ -1246,16 +1246,16 @@ unsigned long sql::mariadb::command::escape(char * to, const char * from, unsign
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : escape
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : ×ª»»Êı¾İ²¢±£´æµ½×Ö·û´®¶ÔÏóÖĞ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * data ĞèÒª×ª»»µÄÊı¾İ
-// º¯Êı²ÎÊı : unsigned long size ĞèÒª×ª»»µÄÊı¾İµÄ³¤¶È
-// ·µ »Ø Öµ : std::string ×ª»»ºóµÄ×Ö·û´®
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÖ´ĞĞÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : escape
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : è½¬æ¢æ•°æ®å¹¶ä¿å­˜åˆ°å­—ç¬¦ä¸²å¯¹è±¡ä¸­
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * data éœ€è¦è½¬æ¢çš„æ•°æ®
+// å‡½æ•°å‚æ•° : unsigned long size éœ€è¦è½¬æ¢çš„æ•°æ®çš„é•¿åº¦
+// è¿” å› å€¼ : std::string è½¬æ¢åçš„å­—ç¬¦ä¸²
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœæ‰§è¡Œå¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::command::escape(const char * data, unsigned long size) const
 {
@@ -1265,16 +1265,16 @@ std::string sql::mariadb::command::escape(const char * data, unsigned long size)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : escape_with_quote
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : ×ª»»Êı¾İ²¢ÒÔµ¥ÒıºÅÒıÓÃ±£´æµ½×Ö·û´®¶ÔÏóÖĞ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * data ĞèÒª×ª»»µÄÊı¾İ
-// º¯Êı²ÎÊı : unsigned long size ĞèÒª×ª»»µÄÊı¾İµÄ³¤¶È
-// ·µ »Ø Öµ : std::string ×ª»»ºóµÄ×Ö·û´®
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÖ´ĞĞÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : escape_with_quote
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : è½¬æ¢æ•°æ®å¹¶ä»¥å•å¼•å·å¼•ç”¨ä¿å­˜åˆ°å­—ç¬¦ä¸²å¯¹è±¡ä¸­
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * data éœ€è¦è½¬æ¢çš„æ•°æ®
+// å‡½æ•°å‚æ•° : unsigned long size éœ€è¦è½¬æ¢çš„æ•°æ®çš„é•¿åº¦
+// è¿” å› å€¼ : std::string è½¬æ¢åçš„å­—ç¬¦ä¸²
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœæ‰§è¡Œå¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 std::string sql::mariadb::command::escape_with_quote(const char * data, unsigned long size) const
 {
@@ -1284,16 +1284,16 @@ std::string sql::mariadb::command::escape_with_quote(const char * data, unsigned
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : escape_buffer
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : ×ª»»Êı¾İ²¢±£´æµ½ std::vector<char> ÀàĞÍµÄ»º³åÇøÖĞ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * data ĞèÒª×ª»»µÄÊı¾İ
-// º¯Êı²ÎÊı : unsigned long size ĞèÒª×ª»»µÄÊı¾İµÄ³¤¶È
-// ·µ »Ø Öµ : std::vector<char> ±£´æ×ª»»ºóµÄÊı¾İµÄ»º³åÇø
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÖ´ĞĞÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : escape_buffer
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : è½¬æ¢æ•°æ®å¹¶ä¿å­˜åˆ° std::vector<char> ç±»å‹çš„ç¼“å†²åŒºä¸­
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * data éœ€è¦è½¬æ¢çš„æ•°æ®
+// å‡½æ•°å‚æ•° : unsigned long size éœ€è¦è½¬æ¢çš„æ•°æ®çš„é•¿åº¦
+// è¿” å› å€¼ : std::vector<char> ä¿å­˜è½¬æ¢åçš„æ•°æ®çš„ç¼“å†²åŒº
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœæ‰§è¡Œå¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 std::vector<char> sql::mariadb::command::escape_buffer(const char * data, unsigned long size) const
 {
@@ -1309,16 +1309,16 @@ std::vector<char> sql::mariadb::command::escape_buffer(const char * data, unsign
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : escape_buffer_with_quote
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : ×ª»»Êı¾İ²¢²¢ÒÔµ¥ÒıºÅÒıÓÃ±£´æµ½ std::vector<char> ÀàĞÍµÄ»º³åÇøÖĞ
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * data ĞèÒª×ª»»µÄÊı¾İ
-// º¯Êı²ÎÊı : unsigned long size ĞèÒª×ª»»µÄÊı¾İµÄ³¤¶È
-// ·µ »Ø Öµ : std::vector<char> ±£´æ×ª»»ºóµÄÊı¾İµÄ»º³åÇø
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÖ´ĞĞÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : escape_buffer_with_quote
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : è½¬æ¢æ•°æ®å¹¶å¹¶ä»¥å•å¼•å·å¼•ç”¨ä¿å­˜åˆ° std::vector<char> ç±»å‹çš„ç¼“å†²åŒºä¸­
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * data éœ€è¦è½¬æ¢çš„æ•°æ®
+// å‡½æ•°å‚æ•° : unsigned long size éœ€è¦è½¬æ¢çš„æ•°æ®çš„é•¿åº¦
+// è¿” å› å€¼ : std::vector<char> ä¿å­˜è½¬æ¢åçš„æ•°æ®çš„ç¼“å†²åŒº
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœæ‰§è¡Œå¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 std::vector<char> sql::mariadb::command::escape_buffer_with_quote(const char * data, unsigned long size) const
 {
@@ -1335,13 +1335,13 @@ std::vector<char> sql::mariadb::command::escape_buffer_with_quote(const char * d
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * text SQLÓï¾ä
-// ·µ »Ø Öµ : bool Èç¹ûSQLÓï¾äÖ´ĞĞ³É¹¦·µ»Øtrue; ·´Ö®·µ»Øfalse
+// å‡½æ•°åç§° : execute
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * text SQLè¯­å¥
+// è¿” å› å€¼ : bool å¦‚æœSQLè¯­å¥æ‰§è¡ŒæˆåŠŸè¿”å›true; åä¹‹è¿”å›false
 //*********************************************************
 bool sql::mariadb::command::execute(const char * text) const noexcept
 {
@@ -1351,14 +1351,14 @@ bool sql::mariadb::command::execute(const char * text) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * text SQLÓï¾ä
-// º¯Êı²ÎÊı : unsigned long length SQLÓï¾ä×Ö·û´®³¤¶È
-// ·µ »Ø Öµ : bool Èç¹ûSQLÓï¾äÖ´ĞĞ³É¹¦·µ»Øtrue; ·´Ö®·µ»Øfalse
+// å‡½æ•°åç§° : execute
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * text SQLè¯­å¥
+// å‡½æ•°å‚æ•° : unsigned long length SQLè¯­å¥å­—ç¬¦ä¸²é•¿åº¦
+// è¿” å› å€¼ : bool å¦‚æœSQLè¯­å¥æ‰§è¡ŒæˆåŠŸè¿”å›true; åä¹‹è¿”å›false
 //*********************************************************
 bool sql::mariadb::command::execute(const char * text, unsigned long length) const noexcept
 {
@@ -1368,13 +1368,13 @@ bool sql::mariadb::command::execute(const char * text, unsigned long length) con
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::string & text SQLÓï¾ä
-// ·µ »Ø Öµ : bool Èç¹ûSQLÓï¾äÖ´ĞĞ³É¹¦·µ»Øtrue; ·´Ö®·µ»Øfalse
+// å‡½æ•°åç§° : execute
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::string & text SQLè¯­å¥
+// è¿” å› å€¼ : bool å¦‚æœSQLè¯­å¥æ‰§è¡ŒæˆåŠŸè¿”å›true; åä¹‹è¿”å›false
 //*********************************************************
 bool sql::mariadb::command::execute(const std::string & text) const noexcept
 {
@@ -1384,13 +1384,13 @@ bool sql::mariadb::command::execute(const std::string & text) const noexcept
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::vector<char> & data SQLÓï¾ä
-// ·µ »Ø Öµ : bool Èç¹ûSQLÓï¾äÖ´ĞĞ³É¹¦·µ»Øtrue; ·´Ö®·µ»Øfalse
+// å‡½æ•°åç§° : execute
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::vector<char> & data SQLè¯­å¥
+// è¿” å› å€¼ : bool å¦‚æœSQLè¯­å¥æ‰§è¡ŒæˆåŠŸè¿”å›true; åä¹‹è¿”å›false
 //*********************************************************
 bool sql::mariadb::command::execute(const std::vector<char>& data) const noexcept
 {
@@ -1400,92 +1400,92 @@ bool sql::mariadb::command::execute(const std::vector<char>& data) const noexcep
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : bool Èç¹ûSQLÓï¾äÖ´ĞĞ³É¹¦·µ»Øtrue; ·´Ö®·µ»Øfalse
-// Òì    ³£ : Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÉú³ÉSQLÓï¾äÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : execute
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : bool å¦‚æœSQLè¯­å¥æ‰§è¡ŒæˆåŠŸè¿”å›true; åä¹‹è¿”å›false
+// å¼‚    å¸¸ : å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœç”ŸæˆSQLè¯­å¥å¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 bool sql::mariadb::command::execute(void) const
 {
 	assert(m_ptr_mysql != nullptr);
 	assert(!m_text.empty());
 
-	unsigned long size = 0; // ±£´æÊı¾İµÄ×Ü×Ö½ÚÊı, ÓÃÓÚ¿ª±Ù»º³åÇø
+	unsigned long size = 0; // ä¿å­˜æ•°æ®çš„æ€»å­—èŠ‚æ•°, ç”¨äºå¼€è¾Ÿç¼“å†²åŒº
 
-	// ±éÀúÊı¾İ, Çó³öÊı¾İµÄ×Ü×Ö½ÚÊı
+	// éå†æ•°æ®, æ±‚å‡ºæ•°æ®çš„æ€»å­—èŠ‚æ•°
 	for (const auto &parameter : m_parameters)
 	{
-		const auto isnum = parameter.second.first; // Êı¾İÊÇ·ñÒ»¸öÊı
-		const auto count = parameter.second.second.second; // Êı¾İ´óĞ¡
+		const auto isnum = parameter.second.first; // æ•°æ®æ˜¯å¦ä¸€ä¸ªæ•°
+		const auto count = parameter.second.second.second; // æ•°æ®å¤§å°
 
-		// Èç¹û²»ÊÇÒ»¸öÊı, Ôò¶îÍâ¼ÓÉÏÁ½¸öµ¥ÒıºÅµÄ³¤¶È
+		// å¦‚æœä¸æ˜¯ä¸€ä¸ªæ•°, åˆ™é¢å¤–åŠ ä¸Šä¸¤ä¸ªå•å¼•å·çš„é•¿åº¦
 		size += isnum ? count : count + 2;
 	}
 
-	// ÓÃÓÚ±£´æÉú³ÉµÄSQLÓï¾ä
+	// ç”¨äºä¿å­˜ç”Ÿæˆçš„SQLè¯­å¥
 	std::vector<char> statement;
 	statement.reserve(m_text.size() + (size * 2 + m_parameters.size()));
 
-	// ±£´æÔ­SQLÓï¾äÖĞ±éÀúµ½ '?' µÄ¸öÊı
+	// ä¿å­˜åŸSQLè¯­å¥ä¸­éå†åˆ° '?' çš„ä¸ªæ•°
 	unsigned int mark_count = 0;
 
-	// Éú³ÉSQLÓï¾ä
+	// ç”ŸæˆSQLè¯­å¥
 	for (auto ch : m_text)
 	{
-		// Èç¹û×Ö·û²»ÊÇÎÊºÅ, ÔòÖ±½ÓÌí¼Ó¸Ã×Ö·ûµ½ĞÂÓï¾äµÄ½áÎ²
+		// å¦‚æœå­—ç¬¦ä¸æ˜¯é—®å·, åˆ™ç›´æ¥æ·»åŠ è¯¥å­—ç¬¦åˆ°æ–°è¯­å¥çš„ç»“å°¾
 		if (ch != '?')
 		{
 			statement.push_back(ch);
 		}
-		else // Èç¹û×Ö·ûÊÇÎÊºÅ
+		else // å¦‚æœå­—ç¬¦æ˜¯é—®å·
 		{
-			const auto &parameter = m_parameters.at(mark_count); // Êı¾İ
-			const auto isnum = parameter.first; // Êı¾İÊÇ·ñÒ»¸öÊı
-			const auto start = parameter.second.first; // Êı¾İ¿ªÊ¼Î»ÖÃ
-			const auto length = parameter.second.second; // Êı¾İ´óĞ¡
+			const auto &parameter = m_parameters.at(mark_count); // æ•°æ®
+			const auto isnum = parameter.first; // æ•°æ®æ˜¯å¦ä¸€ä¸ªæ•°
+			const auto start = parameter.second.first; // æ•°æ®å¼€å§‹ä½ç½®
+			const auto length = parameter.second.second; // æ•°æ®å¤§å°
 
-			// Èç¹û²ÎÊıÊÇÒ»¸öÊı, ÔòÖ±½Ó¸´ÖÆÊı¾İ
+			// å¦‚æœå‚æ•°æ˜¯ä¸€ä¸ªæ•°, åˆ™ç›´æ¥å¤åˆ¶æ•°æ®
 			if (isnum)
 			{
-				const auto count = statement.size(); // ±£´æ´ËÊ±ÈİÆ÷´óĞ¡
-				statement.resize(count + length); // À©³äÈİÁ¿
-				const auto pointer = statement.data() + count; // ¸´ÖÆµÄ¿ªÊ¼Î»ÖÃ
-				memcpy(pointer, start, length); // ¸´ÖÆÊı¾İ
+				const auto count = statement.size(); // ä¿å­˜æ­¤æ—¶å®¹å™¨å¤§å°
+				statement.resize(count + length); // æ‰©å……å®¹é‡
+				const auto pointer = statement.data() + count; // å¤åˆ¶çš„å¼€å§‹ä½ç½®
+				memcpy(pointer, start, length); // å¤åˆ¶æ•°æ®
 			}
-			else // Èç¹û²ÎÊıÊÇ×Ö·û´®»òÕßÊı¾İ, Ôò×ª»»Êı¾İ²¢Ìí¼Óµ¥ÒıºÅ
+			else // å¦‚æœå‚æ•°æ˜¯å­—ç¬¦ä¸²æˆ–è€…æ•°æ®, åˆ™è½¬æ¢æ•°æ®å¹¶æ·»åŠ å•å¼•å·
 			{
-				statement.push_back('\''); // Ìí¼Óµ¥ÒıºÅ
+				statement.push_back('\''); // æ·»åŠ å•å¼•å·
 
-				const auto count = statement.size(); // ±£´æ´ËÊ±ÈİÆ÷´óĞ¡
-				statement.resize(count + (length * 2 + 1)); // À©³äÈİÁ¿
-				const auto pointer = statement.data() + count; // ¸´ÖÆµÄ¿ªÊ¼Î»ÖÃ
+				const auto count = statement.size(); // ä¿å­˜æ­¤æ—¶å®¹å™¨å¤§å°
+				statement.resize(count + (length * 2 + 1)); // æ‰©å……å®¹é‡
+				const auto pointer = statement.data() + count; // å¤åˆ¶çš„å¼€å§‹ä½ç½®
 				statement.resize(count + this->escape(pointer, start, length));
 
-				statement.push_back('\''); // Ìí¼Óµ¥ÒıºÅ
+				statement.push_back('\''); // æ·»åŠ å•å¼•å·
 			}
 
-			++mark_count; // Ôö¼ÓÒ»¸öÎÊºÅµÄ¸öÊı
+			++mark_count; // å¢åŠ ä¸€ä¸ªé—®å·çš„ä¸ªæ•°
 		}
 	}
 
-	// Ö´ĞĞSQLÓï¾ä²¢·µ»ØÊÇ·ñÖ´ĞĞ³É¹¦
+	// æ‰§è¡ŒSQLè¯­å¥å¹¶è¿”å›æ˜¯å¦æ‰§è¡ŒæˆåŠŸ
 	return mysql_real_query(m_ptr_mysql, statement.data(), (unsigned long)statement.size()) == 0;
 }
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute_reader
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * text SQLÓï¾ä
-// ·µ »Ø Öµ : sql::mariadb::recordset ½á¹û¼¯
-// Òì    ³£ : Èç¹ûÖ´ĞĞSQLÊ§°ÜÔòÅ×³ö mariadb_exception Òì³£
+// å‡½æ•°åç§° : execute_reader
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * text SQLè¯­å¥
+// è¿” å› å€¼ : sql::mariadb::recordset ç»“æœé›†
+// å¼‚    å¸¸ : å¦‚æœæ‰§è¡ŒSQLå¤±è´¥åˆ™æŠ›å‡º mariadb_exception å¼‚å¸¸
 //*********************************************************
 sql::mariadb::recordset sql::mariadb::command::execute_reader(const char * text) const
 {
@@ -1495,15 +1495,15 @@ sql::mariadb::recordset sql::mariadb::command::execute_reader(const char * text)
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute_reader
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const char * text SQLÓï¾ä
-// º¯Êı²ÎÊı : unsigned long length textµÄ×Ö½ÚÊı
-// ·µ »Ø Öµ : sql::mariadb::recordset ½á¹û¼¯
-// Òì    ³£ : Èç¹ûÖ´ĞĞSQLÊ§°ÜÔòÅ×³ö mariadb_exception Òì³£
+// å‡½æ•°åç§° : execute_reader
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const char * text SQLè¯­å¥
+// å‡½æ•°å‚æ•° : unsigned long length textçš„å­—èŠ‚æ•°
+// è¿” å› å€¼ : sql::mariadb::recordset ç»“æœé›†
+// å¼‚    å¸¸ : å¦‚æœæ‰§è¡ŒSQLå¤±è´¥åˆ™æŠ›å‡º mariadb_exception å¼‚å¸¸
 //*********************************************************
 sql::mariadb::recordset sql::mariadb::command::execute_reader(const char * text, unsigned long length) const
 {
@@ -1513,14 +1513,14 @@ sql::mariadb::recordset sql::mariadb::command::execute_reader(const char * text,
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute_reader
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::string & text SQLÓï¾ä
-// ·µ »Ø Öµ : sql::mariadb::recordset ½á¹û¼¯
-// Òì    ³£ : Èç¹ûÖ´ĞĞSQLÊ§°ÜÔòÅ×³ö mariadb_exception Òì³£
+// å‡½æ•°åç§° : execute_reader
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::string & text SQLè¯­å¥
+// è¿” å› å€¼ : sql::mariadb::recordset ç»“æœé›†
+// å¼‚    å¸¸ : å¦‚æœæ‰§è¡ŒSQLå¤±è´¥åˆ™æŠ›å‡º mariadb_exception å¼‚å¸¸
 //*********************************************************
 sql::mariadb::recordset sql::mariadb::command::execute_reader(const std::string & text) const
 {
@@ -1530,14 +1530,14 @@ sql::mariadb::recordset sql::mariadb::command::execute_reader(const std::string 
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute_reader
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// º¯Êı²ÎÊı : const std::vector<char> & data SQLÓï¾ä
-// ·µ »Ø Öµ : sql::mariadb::recordset ½á¹û¼¯
-// Òì    ³£ : Èç¹ûÖ´ĞĞSQLÊ§°ÜÔòÅ×³ö mariadb_exception Òì³£
+// å‡½æ•°åç§° : execute_reader
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// å‡½æ•°å‚æ•° : const std::vector<char> & data SQLè¯­å¥
+// è¿” å› å€¼ : sql::mariadb::recordset ç»“æœé›†
+// å¼‚    å¸¸ : å¦‚æœæ‰§è¡ŒSQLå¤±è´¥åˆ™æŠ›å‡º mariadb_exception å¼‚å¸¸
 //*********************************************************
 sql::mariadb::recordset sql::mariadb::command::execute_reader(const std::vector<char>& data) const
 {
@@ -1547,15 +1547,15 @@ sql::mariadb::recordset sql::mariadb::command::execute_reader(const std::vector<
 
 
 //*********************************************************
-// º¯ÊıÃû³Æ : execute_reader
-// ×÷    Õß : Gooeen
-// Íê³ÉÈÕÆÚ : 2015/09/16
-// º¯ÊıËµÃ÷ : Ö´ĞĞSQLÓï¾ä
-// ·ÃÎÊ·½Ê½ : public
-// ·µ »Ø Öµ : sql::mariadb::recordset ½á¹û¼¯
-// Òì    ³£ : Èç¹ûÖ´ĞĞSQLÊ§°ÜÔòÅ×³ö mariadb_exception Òì³£
-//            Èç¹û·ÖÅä×ÊÔ´Ê§°ÜÔòÅ×³ö std::bad_alloc Òì³£;
-//            Èç¹ûÉú³ÉSQLÓï¾äÊ§°ÜÔòÅ×³ö std::exception Òì³£
+// å‡½æ•°åç§° : execute_reader
+// ä½œ    è€… : Gooeen
+// å®Œæˆæ—¥æœŸ : 2015/09/16
+// å‡½æ•°è¯´æ˜ : æ‰§è¡ŒSQLè¯­å¥
+// è®¿é—®æ–¹å¼ : public
+// è¿” å› å€¼ : sql::mariadb::recordset ç»“æœé›†
+// å¼‚    å¸¸ : å¦‚æœæ‰§è¡ŒSQLå¤±è´¥åˆ™æŠ›å‡º mariadb_exception å¼‚å¸¸
+//            å¦‚æœåˆ†é…èµ„æºå¤±è´¥åˆ™æŠ›å‡º std::bad_alloc å¼‚å¸¸;
+//            å¦‚æœç”ŸæˆSQLè¯­å¥å¤±è´¥åˆ™æŠ›å‡º std::exception å¼‚å¸¸
 //*********************************************************
 sql::mariadb::recordset sql::mariadb::command::execute_reader(void) const
 {
