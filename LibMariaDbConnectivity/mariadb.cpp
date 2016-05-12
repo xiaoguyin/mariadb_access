@@ -114,7 +114,7 @@ sql::mariadb::mariadb_exception::mariadb_exception(const std::string & text, con
 // 访问方式 : public
 // 返 回 值 : const char * 异常信息字符串
 //*********************************************************
-const char * sql::mariadb::mariadb_exception::what() const
+const char * sql::mariadb::mariadb_exception::what() const noexcept
 {
 	return m_text.c_str();
 }
@@ -1069,23 +1069,58 @@ void sql::mariadb::command::prepare(const std::string & text)
 //*********************************************************
 // 函数名称 : add
 // 作    者 : Gooeen
-// 完成日期 : 2015/09/16
+// 完成日期 : 2016/05/12
 // 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
 //            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
-//            executer.add(1, "data");
+//            executer.add(1, std::make_shared<std::string>("data"));
 //            在执行SQL语句时将产生 SQL语句:
 //            insert into table1 values(12, 'data')
 // 访问方式 : public
 // 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
-// 返 回 值 : void
+// 函数参数 : std::shared_ptr<std::string> &&text 数据, 此数据在SQL语句中将以单引号引用
 // 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 //*********************************************************
-void sql::mariadb::command::add(unsigned int pos, const std::string & text)
+void sql::mariadb::command::add(unsigned int pos, std::shared_ptr<std::string> &&text)
 {
-	this->add(pos, std::string(text));
+	// 保存字符串
+	m_strings.push_back(std::move(text));
+
+	// 保存数据的信息
+	const auto p = m_strings.back()->c_str();
+	const auto size = (unsigned long)m_strings.back()->size();
+	const auto pair = std::make_pair(p, size);
+	m_parameters[pos] = std::make_pair(false, pair);
+}
+
+
+//*********************************************************
+// 函数名称 : add
+// 作    者 : Gooeen
+// 完成日期 : 2016/05/12
+// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
+//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
+//            executer.prepare("insert into table1 values(?, ?)");
+//            executer.add(0, 12);
+//            executer.add(1, std::make_shared<std::string>("data"));
+//            在执行SQL语句时将产生 SQL语句:
+//            insert into table1 values(12, 'data')
+// 访问方式 : public
+// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
+// 函数参数 : const std::shared_ptr<std::string> &text 数据, 此数据在SQL语句中将以单引号引用
+// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
+//*********************************************************
+void sql::mariadb::command::add(unsigned int pos, const std::shared_ptr<std::string> &text)
+{
+	// 保存字符串
+	m_strings.push_back(text);
+
+	// 保存数据的信息
+	const auto p = m_strings.back()->c_str();
+	const auto size = (unsigned long)m_strings.back()->size();
+	const auto pair = std::make_pair(p, size);
+	m_parameters[pos] = std::make_pair(false, pair);
 }
 
 
@@ -1108,14 +1143,7 @@ void sql::mariadb::command::add(unsigned int pos, const std::string & text)
 //*********************************************************
 void sql::mariadb::command::add(unsigned int pos, std::string && text)
 {
-	// 保存字符串
-	m_strings.push_back(std::move(text));
-
-	// 保存数据的信息
-	const auto p = m_strings.back().c_str();
-	const auto size = (unsigned long)m_strings.back().size();
-	const auto pair = std::make_pair(p, size);
-	m_parameters[pos] = std::make_pair(false, pair);
+	this->add(pos, std::make_shared<std::string>(std::move(text)));
 }
 
 
@@ -1127,32 +1155,9 @@ void sql::mariadb::command::add(unsigned int pos, std::string && text)
 //            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
-//            executer.add(1, "data");
+//            executer.add(1, std::vector<char>({'H', 'e', 'l', 'l', 'o'}));
 //            在执行SQL语句时将产生 SQL语句:
-//            insert into table1 values(12, 'data')
-// 访问方式 : public
-// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
-// 返 回 值 : void
-// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
-//*********************************************************
-void sql::mariadb::command::add(unsigned int pos, const std::vector<char> &data)
-{
-	this->add(pos, std::vector<char>(data));
-}
-
-
-//*********************************************************
-// 函数名称 : add
-// 作    者 : Gooeen
-// 完成日期 : 2015/09/16
-// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
-//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
-//            executer.prepare("insert into table1 values(?, ?)");
-//            executer.add(0, 12);
-//            executer.add(1, "data");
-//            在执行SQL语句时将产生 SQL语句:
-//            insert into table1 values(12, 'data')
+//            insert into table1 values(12, 'Hello')
 // 访问方式 : public
 // 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
 // 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
@@ -1162,11 +1167,11 @@ void sql::mariadb::command::add(unsigned int pos, const std::vector<char> &data)
 void sql::mariadb::command::add(unsigned int pos, std::vector<char> &&data)
 {
 	// 保存数据
-	m_datas.push_back(std::move(data));
+	m_datas.push_back(std::make_shared<std::vector<char>>(std::move(data)));
 
 	// 保存数据的信息
-	const auto p = m_datas.back().data();
-	const auto size = (unsigned long)m_datas.back().size();
+	const auto p = m_datas.back()->data();
+	const auto size = (unsigned long)m_datas.back()->size();
 	const auto pair = std::make_pair(p, size);
 	m_parameters[pos] = std::make_pair(false, pair);
 }
@@ -1180,30 +1185,7 @@ void sql::mariadb::command::add(unsigned int pos, std::vector<char> &&data)
 //            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 //            executer.prepare("insert into table1 values(?, ?)");
 //            executer.add(0, 12);
-//            executer.add(1, "data");
-//            在执行SQL语句时将产生 SQL语句:
-//            insert into table1 values(12, 'data')
-// 访问方式 : public
-// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
-// 返 回 值 : void
-// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
-//*********************************************************
-void sql::mariadb::command::add(unsigned int pos, const std::vector<unsigned char> &data)
-{
-	this->add(pos, std::vector<unsigned char>(data));
-}
-
-
-//*********************************************************
-// 函数名称 : add
-// 作    者 : Gooeen
-// 完成日期 : 2015/09/16
-// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
-//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
-//            executer.prepare("insert into table1 values(?, ?)");
-//            executer.add(0, 12);
-//            executer.add(1, "data");
+//            executer.add(1, std::vector<unsigned char>({'H', 'e', 'l', 'l', 'o'}));
 //            在执行SQL语句时将产生 SQL语句:
 //            insert into table1 values(12, 'data')
 // 访问方式 : public
@@ -1215,11 +1197,11 @@ void sql::mariadb::command::add(unsigned int pos, const std::vector<unsigned cha
 void sql::mariadb::command::add(unsigned int pos, std::vector<unsigned char> &&data)
 {
 	// 保存数据
-	m_udatas.push_back(std::move(data));
+	m_udatas.push_back(std::make_shared<std::vector<unsigned char>>(std::move(data)));
 
 	// 保存数据的信息
-	const auto p = (char *)m_udatas.back().data();
-	const auto size = (unsigned long)m_udatas.back().size();
+	const auto p = (char *)m_udatas.back()->data();
+	const auto size = (unsigned long)m_udatas.back()->size();
 	const auto pair = std::make_pair(p, size);
 	m_parameters[pos] = std::make_pair(false, pair);
 }
@@ -1561,4 +1543,394 @@ sql::mariadb::recordset sql::mariadb::command::execute_reader(void) const
 {
 	if_false_throw(this->execute(), m_text);
 	return recordset(m_ptr_mysql);
+}
+
+
+namespace sql
+{
+	namespace mariadb
+	{
+		//*********************************************************
+		// 函数名称 : get_char
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据强制转换成 char 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : char 数据
+		//*********************************************************
+		template <>
+		char recordset::get<char>(unsigned long n) const
+		{
+			return get_char(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_double
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 double 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : double 数据
+		//*********************************************************
+		template <>
+		double recordset::get<double>(unsigned long n) const
+		{
+			return get_double(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_float
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 float 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : float 数据
+		//*********************************************************
+		template <>
+		float recordset::get<float>(unsigned long n) const
+		{
+			return get_float(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_int
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 int 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : int 数据
+		//*********************************************************
+		template <>
+		int recordset::get<int>(unsigned long n) const
+		{
+			return get_int(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_longlong
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 long long 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : long long 数据
+		//*********************************************************
+		template <>
+		long long recordset::get<long long>(unsigned long n) const
+		{
+			return get_longlong(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_long
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 long 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : long 数据
+		//*********************************************************
+		template <>
+		long recordset::get<long>(unsigned long n) const
+		{
+			return get_long(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_short
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 short 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : short 数据
+		//*********************************************************
+		template <>
+		short recordset::get<short>(unsigned long n) const
+		{
+			return get_short(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_string
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::string 数据
+		// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
+		//            则抛出 std::length_error 异常;
+		//            如果分配资源失败则抛出 std::bad_alloc 异常
+		//*********************************************************
+		template <>
+		std::string recordset::get<std::string>(unsigned long n) const
+		{
+			return get_string(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_string_ptr
+		// 作    者 : Gooeen
+		// 完成日期 : 2016/05/09
+		// 函数说明 : 获取数据
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::string 数据
+		// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
+		//            则抛出 std::length_error 异常;
+		//            如果分配资源失败则抛出 std::bad_alloc 异常
+		//*********************************************************
+		template <>
+		std::shared_ptr<std::string> recordset::get<std::shared_ptr<std::string>>(unsigned long n) const
+		{
+			return get_string_ptr(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_udata
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::vector<unsigned char> 数据
+		// 异    常 : 如果 std::vector 创建失败时抛出异常
+		//*********************************************************
+		template <>
+		std::vector<unsigned char> recordset::get<std::vector<unsigned char>>(unsigned long n) const
+		{
+			return get_udata(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_udata_ptr
+		// 作    者 : Gooeen
+		// 完成日期 : 2016/05/09
+		// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::vector<unsigned char> 数据
+		// 异    常 : 如果 std::vector 创建失败时抛出异常
+		//*********************************************************
+		template <>
+		std::shared_ptr<std::vector<unsigned char>> recordset::get<std::shared_ptr<std::vector<unsigned char>>>(unsigned long n) const
+		{
+			return get_udata_ptr(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_data
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::vector<char> 数据
+		// 异    常 : 如果 std::vector 创建失败时抛出异常
+		//*********************************************************
+		template <>
+		std::vector<char> recordset::get<std::vector<char>>(unsigned long n) const
+		{
+			return get_data(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_data_ptr
+		// 作    者 : Gooeen
+		// 完成日期 : 2016/05/09
+		// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::vector<char> 数据
+		// 异    常 : 如果 std::vector 创建失败时抛出异常
+		//*********************************************************
+		template <>
+		std::shared_ptr<std::vector<char>> recordset::get<std::shared_ptr<std::vector<char>>>(unsigned long n) const
+		{
+			return get_data_ptr(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_wstring
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::wstring 数据
+		//*********************************************************
+		template <>
+		std::wstring recordset::get<std::wstring>(unsigned long n) const
+		{
+			return get_wstring(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_wstring_ptr
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/05/09
+		// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : std::shared_ptr<std::wstring> 数据
+		//*********************************************************
+		template <>
+		std::shared_ptr<std::wstring> recordset::get<std::shared_ptr<std::wstring>>(unsigned long n) const
+		{
+			return get_wstring_ptr(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_uchar
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据强制转换成 unsigned char 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : unsigned char 数据
+		//*********************************************************
+		template <>
+		unsigned char recordset::get<unsigned char>(unsigned long n) const
+		{
+			return get_uchar(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_uint
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/13
+		// 函数说明 : 获取数据, 并将数据转换成 unsigned int 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : unsigned int 数据
+		// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
+		//            如果数据值大于 unsigned int 的取值范围, 则抛出 std::out_of_range 异常
+		//*********************************************************
+		template <>
+		unsigned int recordset::get<unsigned int>(unsigned long n) const
+		{
+			return get_uint(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_ulonglong
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据转换成 unsigned long long 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : unsigned long long 数据
+		// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
+		//            如果数据值大于 unsigned long long 的取值范围, 则抛出 std::out_of_range 异常
+		//*********************************************************
+		template <>
+		unsigned long long recordset::get<unsigned long long>(unsigned long n) const
+		{
+			return get_ulonglong(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_ulong
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据转换成 unsigned long 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : unsigned long 数据
+		// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
+		//            如果数据值大于 unsigned long 的取值范围, 则抛出 std::out_of_range 异常
+		//*********************************************************
+		template <>
+		unsigned long recordset::get<unsigned long>(unsigned long n) const
+		{
+			return get_ulong(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_ushort
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据转换成 unsigned short 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : unsigned short 数据
+		//*********************************************************
+		template <>
+		unsigned short recordset::get<unsigned short>(unsigned long n) const
+		{
+			return get_ushort(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_wchar
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据强制转换成 wchar_t 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : wchar_t 数据
+		//*********************************************************
+		template <>
+		wchar_t recordset::get<wchar_t>(unsigned long n) const
+		{
+			return get_wchar(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_raw
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 不进行转换, 直接获取从数据库返回的数据
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : const char * 数据
+		//*********************************************************
+		template <>
+		const char * recordset::get<const char *>(unsigned long n) const
+		{
+			return get_raw(n);
+		}
+
+
+		//*********************************************************
+		// 函数名称 : get_bool
+		// 作    者 : Gooeen
+		// 完成日期 : 2015/09/15
+		// 函数说明 : 获取数据, 并将数据强制转换成 bool 类型
+		// 访问方式 : public
+		// 函数参数 : unsigned long n 数据的列位置
+		// 返 回 值 : bool 数据
+		//*********************************************************
+		template <>
+		bool recordset::get<bool>(unsigned long n) const
+		{
+			return get_bool(n);
+		}
+	}
 }

@@ -20,6 +20,8 @@
 #include <list>
 #include <tuple>
 #include <memory>
+#include <algorithm>
+#include <cstring>
 
 // 如果指针是空则抛出异常
 #define if_null_throw(pointer, message)\
@@ -118,7 +120,7 @@ namespace sql
 			// 访问方式 : public
 			// 返 回 值 : const char * 异常信息字符串
 			//*********************************************************
-			const char * what() const override;
+			virtual const char * what() const noexcept override;
 
 		private:
 			std::string m_text; // 异常信息
@@ -239,7 +241,7 @@ namespace sql
 			// 作    者 : Gooeen
 			// 完成日期 : 2015/09/13
 			// 函数说明 : 禁止复制
-			// 访问方式 : private 
+			// 访问方式 : private
 			// 函数参数 : const connection &
 			//*********************************************************
 			connection(const connection &) = delete;
@@ -249,7 +251,7 @@ namespace sql
 			// 作    者 : Gooeen
 			// 完成日期 : 2015/09/13
 			// 函数说明 : 禁止复制
-			// 访问方式 : private 
+			// 访问方式 : private
 			// 函数参数 : const connection &
 			// 返 回 值 : connection &
 			//*********************************************************
@@ -660,367 +662,6 @@ namespace sql
 			template <typename T>
 			T get(unsigned long n) const;
 
-			//*********************************************************
-			// 函数名称 : get_char
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据强制转换成 char 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : char 数据
-			//*********************************************************
-			template <>
-			char get<char>(unsigned long n) const
-			{
-				return get_char(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_double
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 double 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : double 数据
-			//*********************************************************
-			template <>
-			double get<double>(unsigned long n) const
-			{
-				return get_double(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_float
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 float 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : float 数据
-			//*********************************************************
-			template <>
-			float get<float>(unsigned long n) const
-			{
-				return get_float(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_int
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 int 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : int 数据
-			//*********************************************************
-			template <>
-			int get<int>(unsigned long n) const
-			{
-				return get_int(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_longlong
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 long long 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : long long 数据
-			//*********************************************************
-			template <>
-			long long get<long long>(unsigned long n) const
-			{
-				return get_longlong(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_long
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 long 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : long 数据
-			//*********************************************************
-			template <>
-			long get<long>(unsigned long n) const
-			{
-				return get_long(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_short
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 short 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : short 数据
-			//*********************************************************
-			template <>
-			short get<short>(unsigned long n) const
-			{
-				return get_short(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_string
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::string 数据
-			// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
-			//            则抛出 std::length_error 异常;
-			//            如果分配资源失败则抛出 std::bad_alloc 异常
-			//*********************************************************
-			template <>
-			std::string get<std::string>(unsigned long n) const
-			{
-				return get_string(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_string_ptr
-			// 作    者 : Gooeen
-			// 完成日期 : 2016/05/09
-			// 函数说明 : 获取数据
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::string 数据
-			// 异    常 : 如果数据长度 (length) 超过字符串最大长度(max_size)
-			//            则抛出 std::length_error 异常;
-			//            如果分配资源失败则抛出 std::bad_alloc 异常
-			//*********************************************************
-			template <>
-			std::shared_ptr<std::string> get<std::shared_ptr<std::string>>(unsigned long n) const
-			{
-				return get_string_ptr(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_udata
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::vector<unsigned char> 数据
-			// 异    常 : 如果 std::vector 创建失败时抛出异常
-			//*********************************************************
-			template <>
-			std::vector<unsigned char> get<std::vector<unsigned char>>(unsigned long n) const
-			{
-				return get_udata(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_udata_ptr
-			// 作    者 : Gooeen
-			// 完成日期 : 2016/05/09
-			// 函数说明 : 获取数据, 并将数据用 std::vector<unsigned char> 对象保存
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::vector<unsigned char> 数据
-			// 异    常 : 如果 std::vector 创建失败时抛出异常
-			//*********************************************************
-			template <>
-			std::shared_ptr<std::vector<unsigned char>> get<std::shared_ptr<std::vector<unsigned char>>>(unsigned long n) const
-			{
-				return get_udata_ptr(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_data
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::vector<char> 数据
-			// 异    常 : 如果 std::vector 创建失败时抛出异常
-			//*********************************************************
-			template <>
-			std::vector<char> get<std::vector<char>>(unsigned long n) const
-			{
-				return get_data(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_data_ptr
-			// 作    者 : Gooeen
-			// 完成日期 : 2016/05/09
-			// 函数说明 : 获取数据, 并将数据用 std::vector<char> 对象保存
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::vector<char> 数据
-			// 异    常 : 如果 std::vector 创建失败时抛出异常
-			//*********************************************************
-			template <>
-			std::shared_ptr<std::vector<char>> get<std::shared_ptr<std::vector<char>>>(unsigned long n) const
-			{
-				return get_data_ptr(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_wstring
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::wstring 数据
-			//*********************************************************
-			template <>
-			std::wstring get<std::wstring>(unsigned long n) const
-			{
-				return get_wstring(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_wstring_ptr
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/05/09
-			// 函数说明 : 获取数据, 并将数据强制转换成 std::wstring 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : std::shared_ptr<std::wstring> 数据
-			//*********************************************************
-			template <>
-			std::shared_ptr<std::wstring> get<std::shared_ptr<std::wstring>>(unsigned long n) const
-			{
-				return get_wstring_ptr(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_uchar
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据强制转换成 unsigned char 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : unsigned char 数据
-			//*********************************************************
-			template <>
-			unsigned char get<unsigned char>(unsigned long n) const
-			{
-				return get_uchar(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_uint
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/13
-			// 函数说明 : 获取数据, 并将数据转换成 unsigned int 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : unsigned int 数据
-			// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
-			//            如果数据值大于 unsigned int 的取值范围, 则抛出 std::out_of_range 异常
-			//*********************************************************
-			template <>
-			unsigned int get<unsigned int>(unsigned long n) const
-			{
-				return get_uint(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_ulonglong
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据转换成 unsigned long long 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : unsigned long long 数据
-			// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
-			//            如果数据值大于 unsigned long long 的取值范围, 则抛出 std::out_of_range 异常
-			//*********************************************************
-			template <>
-			unsigned long long get<unsigned long long>(unsigned long n) const
-			{
-				return get_ulonglong(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_ulong
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据转换成 unsigned long 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : unsigned long 数据
-			// 异    常 : 如果强制转换失败, 则抛出 std::invalid_argument 异常;
-			//            如果数据值大于 unsigned long 的取值范围, 则抛出 std::out_of_range 异常
-			//*********************************************************
-			template <>
-			unsigned long get<unsigned long>(unsigned long n) const
-			{
-				return get_ulong(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_ushort
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据转换成 unsigned short 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : unsigned short 数据
-			//*********************************************************
-			template <>
-			unsigned short get<unsigned short>(unsigned long n) const
-			{
-				return get_ushort(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_wchar
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据强制转换成 wchar_t 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : wchar_t 数据
-			//*********************************************************
-			template <>
-			wchar_t get<wchar_t>(unsigned long n) const
-			{
-				return get_wchar(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_raw
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 不进行转换, 直接获取从数据库返回的数据
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : const char * 数据
-			//*********************************************************
-			template <>
-			const char * get<const char *>(unsigned long n) const
-			{
-				return get_raw(n);
-			}
-
-			//*********************************************************
-			// 函数名称 : get_bool
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/15
-			// 函数说明 : 获取数据, 并将数据强制转换成 bool 类型
-			// 访问方式 : public
-			// 函数参数 : unsigned long n 数据的列位置
-			// 返 回 值 : bool 数据
-			//*********************************************************
-			template <>
-			bool get<bool>(unsigned long n) const
-			{
-				return get_bool(n);
-			}
-
 		private:
 
 			//*********************************************************
@@ -1160,20 +801,38 @@ namespace sql
 			//*********************************************************
 			// 函数名称 : add
 			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/16
+			// 完成日期 : 2016/05/12
 			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
 			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 			//            executer.prepare("insert into table1 values(?, ?)");
 			//            executer.add(0, 12);
-			//            executer.add(1, "data");
+			//            executer.add(1, std::make_shared<std::string>("data"));
 			//            在执行SQL语句时将产生 SQL语句:
 			//            insert into table1 values(12, 'data')
 			// 访问方式 : public
 			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
+			// 函数参数 : std::shared_ptr<std::string> &&text 数据, 此数据在SQL语句中将以单引号引用
 			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
-			void add(unsigned int pos, const std::string &text);
+			void add(unsigned int pos, std::shared_ptr<std::string> &&text);
+
+			//*********************************************************
+			// 函数名称 : add
+			// 作    者 : Gooeen
+			// 完成日期 : 2016/05/12
+			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
+			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
+			//            executer.prepare("insert into table1 values(?, ?)");
+			//            executer.add(0, 12);
+			//            executer.add(1, std::make_shared<std::string>("data"));
+			//            在执行SQL语句时将产生 SQL语句:
+			//            insert into table1 values(12, 'data')
+			// 访问方式 : public
+			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
+			// 函数参数 : const std::shared_ptr<std::string> &text 数据, 此数据在SQL语句中将以单引号引用
+			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
+			//*********************************************************
+			void add(unsigned int pos, const std::shared_ptr<std::string> &text);
 
 			//*********************************************************
 			// 函数名称 : add
@@ -1201,51 +860,16 @@ namespace sql
 			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 			//            executer.prepare("insert into table1 values(?, ?)");
 			//            executer.add(0, 12);
-			//            executer.add(1, "data");
+			//            executer.add(1, std::vector<char>({1, 2, 3, 4, 5}));
 			//            在执行SQL语句时将产生 SQL语句:
 			//            insert into table1 values(12, 'data')
 			// 访问方式 : public
 			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
 			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
-			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
-			//*********************************************************
-			void add(unsigned int pos, const std::vector<char> &data);
-
-			//*********************************************************
-			// 函数名称 : add
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/16
-			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
-			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
-			//            executer.prepare("insert into table1 values(?, ?)");
-			//            executer.add(0, 12);
-			//            executer.add(1, "data");
-			//            在执行SQL语句时将产生 SQL语句:
-			//            insert into table1 values(12, 'data')
-			// 访问方式 : public
-			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
+			// 返 回 值 : void
 			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
 			void add(unsigned int pos, std::vector<char> &&data);
-
-			//*********************************************************
-			// 函数名称 : add
-			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/16
-			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
-			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
-			//            executer.prepare("insert into table1 values(?, ?)");
-			//            executer.add(0, 12);
-			//            executer.add(1, "data");
-			//            在执行SQL语句时将产生 SQL语句:
-			//            insert into table1 values(12, 'data')
-			// 访问方式 : public
-			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
-			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
-			//*********************************************************
-			void add(unsigned int pos, const std::vector<unsigned char> &data);
 
 			//*********************************************************
 			// 函数名称 : add
@@ -1285,11 +909,11 @@ namespace sql
 			void add(unsigned int pos, T value)
 			{
 				// 保存字符串
-				m_strings.push_back(std::to_string(value));
+				m_strings.push_back(std::make_shared<std::string>(std::to_string(value)));
 
 				// 保存数据的信息
-				const auto p = m_strings.back().c_str();
-				const auto size = m_strings.back().size();
+				const auto p = m_strings.back()->c_str();
+				const auto size = (unsigned long)m_strings.back()->size();
 				const auto pair = std::make_pair(p, size);
 				m_parameters[pos] = std::make_pair(true, pair);
 			}
@@ -1702,7 +1326,7 @@ namespace sql
 				auto reader = this->execute_reader(text);
 				if_null_throw(reader, text);
 				read_or_throw(reader, text);
-				return data_tuple<Tuple>::get(reader);
+				return data_tuple_getter<Tuple>::get(reader);
 			}
 
 			//*********************************************************
@@ -1723,7 +1347,7 @@ namespace sql
 				auto reader = this->execute_reader(text, length);
 				if_null_throw(reader, std::string(text, length));
 				read_or_throw(reader, std::string(text, length));
-				return data_tuple<Tuple>::get(reader);
+				return data_tuple_getter<Tuple>::get(reader);
 			}
 
 			//*********************************************************
@@ -1743,7 +1367,7 @@ namespace sql
 				auto reader = this->execute_reader(text);
 				if_null_throw(reader, text);
 				read_or_throw(reader, text);
-				return data_tuple<Tuple>::get(reader);
+				return data_tuple_getter<Tuple>::get(reader);
 			}
 
 			//*********************************************************
@@ -1763,7 +1387,7 @@ namespace sql
 				auto reader = this->execute_reader(data);
 				if_null_throw(reader, std::string(data.begin(), data.end()));
 				read_or_throw(reader, std::string(data.begin(), data.end()));
-				return data_tuple<Tuple>::get(reader);
+				return data_tuple_getter<Tuple>::get(reader);
 			}
 
 			//*********************************************************
@@ -1782,7 +1406,7 @@ namespace sql
 				auto reader = this->execute_reader();
 				if_null_throw(reader, m_text);
 				read_or_throw(reader, m_text);
-				return data_tuple<Tuple>::get(reader);
+				return data_tuple_getter<Tuple>::get(reader);
 			}
 
 			//*********************************************************
@@ -2099,7 +1723,7 @@ namespace sql
 				// 赋值
 				while (reader.read())
 				{
-					data.push_back(data_tuple<Tuple>::get(reader));
+					data.push_back(data_tuple_getter<Tuple>::get(reader));
 				}
 				return data;
 			}
@@ -2121,14 +1745,14 @@ namespace sql
 				std::list<Tuple> data; // 保存数据
 				while (reader.read())
 				{
-					data.push_back(data_tuple<Tuple>::get(reader));
+					data.push_back(data_tuple_getter<Tuple>::get(reader));
 				}
 				return data;
 			}
 
 			// 用于将结果集中读取到的数据保存到 tuple 对象中并返回
 			template <typename Tuple>
-			struct data_tuple
+			struct data_tuple_getter
 			{
 				//*********************************************************
 				// 函数名称 : get
@@ -2143,10 +1767,15 @@ namespace sql
 				static Tuple get(const recordset &reader)
 				{
 					Tuple t;
-					set<std::tuple_size<Tuple>::value>(t, reader);
+					data_tuple_setter<Tuple, std::tuple_size<Tuple>::value>::set(t, reader);
 					return t;
 				}
+			};
 
+			// 用于将结果集中读取到的数据保存到 tuple 对象中并返回
+			template <typename Tuple, size_t Size>
+			struct data_tuple_setter
+			{
 				//*********************************************************
 				// 函数名称 : set
 				// 作    者 : Gooeen
@@ -2158,29 +1787,11 @@ namespace sql
 				// 函数参数 : const recordset & reader 结果集对象
 				// 异    常 : 如果执行失败则抛出异常
 				//*********************************************************
-				template <size_t Size>
 				static void set(Tuple &t, const recordset &reader)
 				{
 					const auto n = Size - 1;
 					std::get<n>(t) = reader.get<std::tuple_element<n, Tuple>::type>(n);
-					set<n>(t, reader);
-				}
-
-				//*********************************************************
-				// 函数名称 : set
-				// 作    者 : Gooeen
-				// 完成日期 : 2015/09/16
-				// 函数说明 : 将结果集中读取到的数据保存到指定的参数 t 中
-				// 模板参数 : size_t Size 函数参数 t 的元素数量
-				// 访问方式 : public
-				// 函数参数 : Tuple & t 用于将从结果集中读取到的数据填充到该参数指定位置
-				// 函数参数 : const recordset & reader 结果集对象
-				// 异    常 : 如果执行失败则抛出异常
-				//*********************************************************
-				template <>
-				static void set<1>(Tuple &t, const recordset &reader)
-				{
-					std::get<0>(t) = reader.get<std::tuple_element<0, Tuple>::type>(0);
+					data_tuple_setter<Tuple, n>::set(t, reader);
 				}
 			};
 
@@ -2189,6 +1800,74 @@ namespace sql
 			// 和 std::vector<char> 型和 std::vector<unsigned char> 型缓冲区
 			template <typename Tuple>
 			class statement
+			{
+			public:
+
+				//*********************************************************
+				// 函数名称 : generate
+				// 作    者 : Gooeen
+				// 完成日期 : 2015/09/16
+				// 函数说明 : 生成SQL语句并保存到 std::vector<char> 对象中
+				// 访问方式 : public
+				// 函数参数 : const command & executer command 对象
+				// 函数参数 : const Type & text SQL语句, std::string 或者 std::vector<char>
+				// 函数参数 : const Tuple & t 数据
+				// 返 回 值 : std::vector<char> 完整的SQL语句
+				// 异    常 : 如果执行失败则抛出 std::exception 异常
+				//*********************************************************
+				template <typename Type>
+				std::vector<char> generate(const command &executer, const Type &text, const Tuple &t)
+				{
+					// 重置最终完整的SQL语句的字节数
+					m_size = text.size();
+
+					// 减去问号数量
+					m_size -= std::count(text.begin(), text.end(), '?');
+
+					// 获取转换后的数据并且计算最终完整的SQL语句的字节数
+					std::pair<std::list<std::vector<char>>, size_t> datas = statement_escape<Tuple, std::tuple_size<Tuple>::value>::escape(executer, t);
+
+					// 加上字符数
+					m_size += datas.second;
+
+					// 用于保存最终完整的SQL语句
+					std::vector<char> data(m_size);
+
+					// 用于赋值操作
+					auto vect_iter = data.begin();
+					auto list_iter = datas.first.begin();
+
+					// 生成SQL语句
+					for (auto ch : text)
+					{
+						// 如果不等于问号则直接复制字符
+						if (ch != '?')
+						{
+							*vect_iter = ch;
+							++vect_iter;
+						}
+						// 如果等于问号则复制数据
+						else
+						{
+							const auto p = data.data() + (vect_iter - data.begin());
+							std::memcpy(p, list_iter->data(), list_iter->size());
+							vect_iter += list_iter->size();
+							++list_iter;
+						}
+					}
+
+					return data;
+				}
+
+			private:
+				size_t m_size; // 最终完整的SQL语句的字节数
+			};
+
+			// 根据提供的带问号的SQL语句和 tuple 对象生成完整的SQL语句
+			// tuple 的元素类型只能是 数 和 std::string 型字符串
+			// 和 std::vector<char> 型和 std::vector<unsigned char> 型缓冲区
+			template <typename Tuple, size_t size>
+			class statement_escape
 			{
 			private:
 
@@ -2262,111 +1941,30 @@ namespace sql
 					return executer.escape_buffer_with_quote((const char *)data.data(), data.size());
 				}
 
-				//*********************************************************
-				// 函数名称 : escape
-				// 作    者 : Gooeen
-				// 完成日期 : 2015/09/16
-				// 函数说明 : 将 t 所保存的数据进行转化后保存到 list 对象中
-				// 访问方式 : public
-				// 函数参数 : const command & executer command 对象
-				// 函数参数 : const Tuple & t 数据
-				// 返 回 值 : std::list<std::vector<char>> 转化后的数据
-				// 异    常 : 如果执行失败则抛出 std::exception 异常
-				//*********************************************************
-				template <size_t size>
-				std::list<std::vector<char>> escape(const command &executer, const Tuple &t)
-				{
-					// 保存数据
-					std::list<std::vector<char>> datas = escape<size - 1>(executer, t);
-					datas.push_back(escape_buffer(executer, std::get<size - 1>(t)));
-
-					// 添加字节数
-					m_size += datas.back().size();
-
-					return datas;
-				}
-
-				//*********************************************************
-				// 函数名称 : escape
-				// 作    者 : Gooeen
-				// 完成日期 : 2015/09/16
-				// 函数说明 : 将 t 所保存的数据进行转化后保存到 list 对象中
-				// 访问方式 : public
-				// 函数参数 : const command & executer command 对象
-				// 函数参数 : const Tuple & t 数据
-				// 返 回 值 : std::list<std::vector<char>> 转化后的数据
-				// 异    常 : 如果执行失败则抛出 std::exception 异常
-				//*********************************************************
-				template <>
-				std::list<std::vector<char>> escape<1>(const command &executer, const Tuple &t)
-				{
-					// 保存数据
-					std::list<std::vector<char>> datas;
-					datas.push_back(escape_buffer(executer, std::get<0>(t)));
-
-					// 添加字节数
-					m_size += datas.back().size();
-
-					return datas;
-				}
-
 			public:
 
 				//*********************************************************
-				// 函数名称 : generate
+				// 函数名称 : escape
 				// 作    者 : Gooeen
 				// 完成日期 : 2015/09/16
-				// 函数说明 : 生成SQL语句并保存到 std::vector<char> 对象中
+				// 函数说明 : 将 t 所保存的数据进行转化后保存到 list 对象中
 				// 访问方式 : public
 				// 函数参数 : const command & executer command 对象
-				// 函数参数 : const Type & text SQL语句, std::string 或者 std::vector<char>
 				// 函数参数 : const Tuple & t 数据
-				// 返 回 值 : std::vector<char> 完整的SQL语句
+				// 返 回 值 : std::list<std::vector<char>> 转化后的数据
 				// 异    常 : 如果执行失败则抛出 std::exception 异常
 				//*********************************************************
-				template <typename Type>
-				std::vector<char> generate(const command &executer, const Type &text, const Tuple &t)
+				static std::pair<std::list<std::vector<char>>, size_t> escape(const command &executer, const Tuple &t)
 				{
-					// 重置最终完整的SQL语句的字节数
-					m_size = text.size();
+					// 保存数据
+					std::pair<std::list<std::vector<char>>, size_t> datas = escape<size - 1>(executer, t);
+					datas.first.push_back(escape_buffer(executer, std::get<size - 1>(t)));
 
-					// 减去问号数量
-					m_size -= std::count(text.begin(), text.end(), '?');
+					// 添加字节数
+					datas.second += datas.first.back().size();
 
-					// 获取转换后的数据并且计算最终完整的SQL语句的字节数
-					std::list<std::vector<char>> datas = this->escape<std::tuple_size<Tuple>::value>(executer, t);
-
-					// 用于保存最终完整的SQL语句
-					std::vector<char> data(m_size);
-
-					// 用于赋值操作
-					auto vect_iter = data.begin();
-					auto list_iter = datas.begin();
-
-					// 生成SQL语句
-					for (auto ch : text)
-					{
-						// 如果不等于问号则直接复制字符
-						if (ch != '?')
-						{
-							*vect_iter = ch;
-							++vect_iter;
-						}
-						// 如果等于问号则复制数据
-						else
-						{
-							const auto p = data.data() + (vect_iter - data.begin());
-							memcpy(p, list_iter->data(), list_iter->size());
-							vect_iter += list_iter->size();
-							++list_iter;
-						}
-					}
-
-					return data;
+					return datas;
 				}
-
-			private:
-				size_t m_size; // 最终完整的SQL语句的字节数
 			};
 
 		private:
@@ -2399,10 +1997,135 @@ namespace sql
 
 			MYSQL *m_ptr_mysql; // MariaDB 数据库句柄
 			std::string m_text; // SQL语句
-			std::list<std::string> m_strings; // 保存字符串数据
-			std::list<std::vector<char>> m_datas; // 保存数据
-			std::list<std::vector<unsigned char>> m_udatas; // 保存数据
+			std::list<std::shared_ptr<std::string>> m_strings; // 保存字符串数据
+			std::list<std::shared_ptr<std::vector<char>>> m_datas; // 保存数据
+			std::list<std::shared_ptr<std::vector<unsigned char>>> m_udatas; // 保存数据
 			std::map<unsigned int, alnum_data> m_parameters; // 保存SQL语句的数据
+		};
+
+		// 用于将结果集中读取到的数据保存到 tuple 对象中并返回
+		template <typename Tuple>
+		struct command::data_tuple_setter<Tuple, 1>
+		{
+			//*********************************************************
+			// 函数名称 : set
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 将结果集中读取到的数据保存到指定的参数 t 中
+			// 模板参数 : size_t Size 函数参数 t 的元素数量
+			// 访问方式 : public
+			// 函数参数 : Tuple & t 用于将从结果集中读取到的数据填充到该参数指定位置
+			// 函数参数 : const recordset & reader 结果集对象
+			// 异    常 : 如果执行失败则抛出异常
+			//*********************************************************
+			static void set(Tuple &t, const sql::mariadb::recordset &reader)
+			{
+				std::get<0>(t) = reader.get<std::tuple_element<0, Tuple>::type>(0);
+			}
+		};
+
+		// 根据提供的带问号的SQL语句和 tuple 对象生成完整的SQL语句
+		// tuple 的元素类型只能是 数 和 std::string 型字符串
+		// 和 std::vector<char> 型和 std::vector<unsigned char> 型缓冲区
+		template <typename Tuple>
+		class command::statement_escape<Tuple, 1>
+		{
+		private:
+
+			//*********************************************************
+			// 函数名称 : escape_buffer
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 将数转换成字符串并保存到 std::vector<char> 对象中
+			// 访问方式 : public
+			// 函数参数 : const command & command 对象
+			// 函数参数 : Type type 数
+			// 返 回 值 : std::vector<char> 字符串形式的数字
+			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常;
+			//            如果执行失败则抛出 std::exception 异常
+			//*********************************************************
+			template <typename Type>
+			static std::vector<char> escape_buffer(const command &, Type type)
+			{
+				const auto text = std::to_string(type);
+				return std::vector<char>(text.begin(), text.end());
+			}
+
+			//*********************************************************
+			// 函数名称 : escape_buffer
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 转换数据
+			// 访问方式 : public
+			// 函数参数 : const command & executer command 对象
+			// 函数参数 : const std::string & data 字符串
+			// 返 回 值 : std::vector<char> 字符串形式的数字
+			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常;
+			//            如果执行失败则抛出 std::exception 异常
+			//*********************************************************
+			static std::vector<char> escape_buffer(const command &executer, const std::string &data)
+			{
+				return executer.escape_buffer_with_quote(data.c_str(), data.size());
+			}
+
+			//*********************************************************
+			// 函数名称 : escape_buffer
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 转换数据
+			// 访问方式 : public
+			// 函数参数 : const command & executer command 对象
+			// 函数参数 : const std::vector<char> & data 数据
+			// 返 回 值 : std::vector<char> 字符串形式的数字
+			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常;
+			//            如果执行失败则抛出 std::exception 异常
+			//*********************************************************
+			static std::vector<char> escape_buffer(const command &executer, const std::vector<char> &data)
+			{
+				return executer.escape_buffer_with_quote(data.data(), data.size());
+			}
+
+			//*********************************************************
+			// 函数名称 : escape_buffer
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 转换数据
+			// 访问方式 : public
+			// 函数参数 : const command & executer command 对象
+			// 函数参数 : const std::vector<unsigned char> & data 数据
+			// 返 回 值 : std::vector<char> 字符串形式的数字
+			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常;
+			//            如果执行失败则抛出 std::exception 异常
+			//*********************************************************
+			static std::vector<char> escape_buffer(const command &executer, const std::vector<unsigned char> &data)
+			{
+				return executer.escape_buffer_with_quote((const char *)data.data(), data.size());
+			}
+
+		public:
+
+			//*********************************************************
+			// 函数名称 : escape
+			// 作    者 : Gooeen
+			// 完成日期 : 2015/09/16
+			// 函数说明 : 将 t 所保存的数据进行转化后保存到 list 对象中
+			// 访问方式 : public
+			// 函数参数 : const command & executer command 对象
+			// 函数参数 : const Tuple & t 数据
+			// 返 回 值 : std::list<std::vector<char>> 转化后的数据
+			// 异    常 : 如果执行失败则抛出 std::exception 异常
+			//*********************************************************
+			static std::pair<std::list<std::vector<char>>, size_t> escape(const command &executer, const Tuple &t)
+			{
+				// 保存数据
+				std::pair<std::list<std::vector<char>>, size_t> datas;
+				datas.first.push_back(escape_buffer(executer, std::get<0>(t)));
+
+				// 添加字节数
+				datas.second = datas.first.back().size();
+
+				return datas;
+			}
 		};
 	}
 }
