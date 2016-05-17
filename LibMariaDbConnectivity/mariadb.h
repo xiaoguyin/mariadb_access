@@ -837,7 +837,7 @@ namespace sql
 			//*********************************************************
 			// 函数名称 : add
 			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/16
+			// 完成日期 : 2016/05/17
 			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
 			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 			//            executer.prepare("insert into table1 values(?, ?)");
@@ -847,15 +847,15 @@ namespace sql
 			//            insert into table1 values(12, 'data')
 			// 访问方式 : public
 			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
+			// 函数参数 : std::string text 数据, 此数据在SQL语句中将以单引号引用
 			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
-			void add(unsigned int pos, std::string &&text);
+			void add(unsigned int pos, std::string text);
 
 			//*********************************************************
 			// 函数名称 : add
 			// 作    者 : Gooeen
-			// 完成日期 : 2015/09/16
+			// 完成日期 : 2016/05/17
 			// 函数说明 : 添加数据, 执行SQL语句时将本次添加的数据用单引
 			//            号引起后代替SQL语句中第 pos 个问号; 例子如下:
 			//            executer.prepare("insert into table1 values(?, ?)");
@@ -865,11 +865,11 @@ namespace sql
 			//            insert into table1 values(12, 'data')
 			// 访问方式 : public
 			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
+			// 函数参数 : std::vector<char> data 数据, 此数据在SQL语句中将以单引号引用
 			// 返 回 值 : void
 			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
-			void add(unsigned int pos, std::vector<char> &&data);
+			void add(unsigned int pos, std::vector<char> data);
 
 			//*********************************************************
 			// 函数名称 : add
@@ -884,10 +884,10 @@ namespace sql
 			//            insert into table1 values(12, 'data')
 			// 访问方式 : public
 			// 函数参数 : unsigned int pos 需要代替问号的位置, 从0开始
-			// 函数参数 : const std::string & text 数据, 此数据在SQL语句中将以单引号引用
+			// 函数参数 : std::vector<unsigned char> data 数据, 此数据在SQL语句中将以单引号引用
 			// 异    常 : 如果分配资源失败则抛出 std::bad_alloc 异常
 			//*********************************************************
-			void add(unsigned int pos, std::vector<unsigned char> &&data);
+			void add(unsigned int pos, std::vector<unsigned char> data);
 
 			//*********************************************************
 			// 函数名称 : add
